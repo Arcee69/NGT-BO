@@ -4,7 +4,23 @@ export default {
     "./src/**/*.{js,jsx,ts,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+
+      fontFamily: {
+        'Dm': ['Dm Sans'],
+        'Hat': ['Red Hat Text'],
+        'Mont': ['Montserrat'],
+      },
+
+      colors: {
+        dark: {
+          100: "#23272E"
+        },
+
+        MODAL_BACKGROUND: "rgba(0, 0, 0, 0.23)",
+      }
+
+    },
   },
   plugins: [],
 }
