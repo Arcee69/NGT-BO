@@ -23,8 +23,8 @@ const CustomersDetails = () => {
         </div>
         <div className='flex flex-col gap-2 mt-6'>
             <div className='flex items-center gap-2'>
-                <p className='text-[#071827] text-[32px] font-medium font-Mont'>{state?.businessName}</p>
-                <p className='font-Mont text-[#5C6F7F] text-base'>December 1, 2023 at</p>
+                <p className='text-[#071827] text-[32px] font-medium font-Mont'>{state?.business_name || "N/A"}</p>
+                <p className='font-Mont text-[#5C6F7F] text-base'>{`${new Date(state?.created_at).toDateString().slice(3)} at`}</p>
                 <div className={`rounded-lg h-8 flex justify-center items-center ${state.status === 'Pending' && 'w-[78px]  bg-[#FFC60029]'} ${state.status === 'success' && ' w-[99px] bg-[#ECFDF5]'} ${state.status === 'Cancelled' && 'w-[92px] bg-[#FFF1F2]'} `}>
                     <p className={`text-sm font-Mont text-left ${state.status === 'Pending' && 'text-[#FFC600]'} ${state.status === 'success' && 'text-[#10B981]'} ${state.status === 'Cancelled' && 'text-[#F43F5E]'} `}>{state.status}</p>
                 </div>

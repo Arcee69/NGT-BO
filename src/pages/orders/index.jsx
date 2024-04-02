@@ -1,13 +1,21 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { FaPlus } from "react-icons/fa6";
 import { LineChart, CartesianGrid, XAxis, YAxis, Legend, Line, Tooltip, ResponsiveContainer } from 'recharts';
 import AllOrders from './components/AllOrders';
 import Pending from './components/Pending';
 import Completed from './components/Completed';
 import Cancelled from './components/Cancelled';
+import { api } from '../../services/api';
+import { appUrls } from '../../services/urls';
+import { Skeleton } from '@mui/material';
 
 const Orders = () => {
   const [activeTab, setActiveTab] = useState("All")
+  const [allOrders, setAllOrders] = useState([])
+  const [allPendingOrders, setAllPendingOrders] = useState([])
+  const [allCompletedOrders, setAllCompletedOrders] = useState([])
+  const [allCancelledOrders, setAllCancelledOrders] = useState([])
+  const [loading, setLoading] = useState(false)
 
     const handleChangeTab = (tab) => {
         setActiveTab(tab)
@@ -34,6 +42,83 @@ const Orders = () => {
     },
   ]
 
+  const getAllOrders = async () => {
+    setLoading(true)
+    await api.get(appUrls?.GET_ORDER_URL)
+    .then((res) => {
+      console.log(res, "asap")
+      setLoading(false)
+      setAllOrders(res?.data?.data?.orders)
+    })
+    .catch((err) => {
+      setLoading(false)
+      console.log(err, "faro")
+    })
+  };
+
+  console.log(allOrders, "allOrders")
+
+  useEffect(() => {
+    getAllOrders()
+  }, [])
+
+  const getPendingOrders = () => {
+    const pendingOrders = []
+    for (let i = 0; i < allOrders?.length; i++) {
+        console.log(allOrders[i])
+        if(allOrders[i]?.status === "Shipped") {
+          pendingOrders.push(allOrders[i])
+        }
+    }
+    return pendingOrders
+  }
+
+
+  useEffect(() => {
+      const pendingOrders = getPendingOrders();
+      setAllPendingOrders(pendingOrders)
+  }, [allOrders])
+
+  console.log(allPendingOrders, "allPendingOrders");
+
+  const getCompletedOrders = () => {
+    const completedOrders = []
+    for (let i = 0; i < allOrders?.length; i++) {
+        console.log(allOrders[i])
+        if(allOrders[i]?.status === "Payment Completed") {
+          completedOrders.push(allOrders[i])
+        }
+    }
+    return completedOrders
+  }
+
+
+  useEffect(() => {
+      const completedOrders = getCompletedOrders();
+      setAllCompletedOrders(completedOrders)
+  }, [allOrders])
+
+  console.log(allCompletedOrders, "allCompletedOrders");
+
+  const getCancelledOrders = () => {
+    const cancelledOrders = []
+    for (let i = 0; i < allOrders?.length; i++) {
+        console.log(allOrders[i])
+        if(allOrders[i]?.status === "Cancelled") {
+          cancelledOrders.push(allOrders[i])
+        }
+    }
+    return cancelledOrders
+  }
+
+
+  useEffect(() => {
+      const cancelledOrders = getCancelledOrders();
+      setAllCancelledOrders(cancelledOrders)
+  }, [allOrders])
+
+  console.log(allCancelledOrders, "allCancelledOrders");
+
 
   return (
     <div className='p-8'>
@@ -45,89 +130,104 @@ const Orders = () => {
         </div>
       </div>
       <div className='mt-[33px] flex items-center gap-[17px]'>
-        <div>
-          <div className='w-[354px] h-[197px] rounded-lg p-4 flex items-center bg-[#fff]'>
-            <div className='flex flex-col gap-[29px]'>
-                <div className='flex flex-col gap-1'>
-                    <p className='font-Hat font-semibold text-[#23272E] text-[17px]'>Total Orders</p>
-                    <p className='font-Hat text-[#8B909A] text-[13px]'>Last 7 days</p>
-                </div>
-                <div className='flex flex-col gap-1'>
-                    <p className='text-[#23272E] font-Hat font-bold text-[31px]'>20</p>
-                    <p>Last 7 days</p>
-                </div>
+        {
+          loading ?
+          <Skeleton  variant="rectangular" width={354} height={197} style={{ backgroundColor: 'rgba(0,0,0, 0.06)', borderRadius: "8px"}} />
+          :
+          <div>
+            <div className='w-[354px] h-[197px] rounded-lg p-4 flex items-center bg-[#fff]'>
+              <div className='flex flex-col gap-[29px]'>
+                  <div className='flex flex-col gap-1'>
+                      <p className='font-Hat font-semibold text-[#23272E] text-[17px]'>Total Orders</p>
+                      <p className='font-Hat text-[#8B909A] text-[13px]'>Last 7 days</p>
+                  </div>
+                  <div className='flex flex-col gap-1'>
+                      <p className='text-[#23272E] font-Hat font-bold text-[31px]'>{allOrders?.length}</p>
+                      <p>Last 7 days</p>
+                  </div>
+              </div>
+              {/* <ResponsiveContainer>
+                  <LineChart width={150} height={50} data={data}
+                      margin={{ top: 5, right: 10, left: 30, bottom: 5 }}
+                  >
+                      {/* <CartesianGrid strokeDasharray="3 3" /> */}
+                      {/* <XAxis dataKey="name" /> */}
+                      {/* <YAxis /> */}
+                      {/* <Tooltip /> */}
+                      {/* <Legend /> 
+                      <Line type="monotone" dataKey="pv" stroke="#D02626" />
+
+                  </LineChart>
+              </ResponsiveContainer> */}
             </div>
-            <ResponsiveContainer>
-                <LineChart width={150} height={50} data={data}
-                    margin={{ top: 5, right: 10, left: 30, bottom: 5 }}
-                >
-                    {/* <CartesianGrid strokeDasharray="3 3" /> */}
-                    {/* <XAxis dataKey="name" /> */}
-                    {/* <YAxis /> */}
-                    <Tooltip />
-                    {/* <Legend /> */}
-                    <Line type="monotone" dataKey="pv" stroke="#D02626" />
-
-                </LineChart>
-            </ResponsiveContainer>
           </div>
-        </div>
+        }
+        {
+          loading ?
+          <Skeleton  variant="rectangular" width={354} height={197} style={{ backgroundColor: 'rgba(0,0,0, 0.06)', borderRadius: "8px"}} />
+          :
+          <div>
+            <div className='w-[354px] h-[197px] rounded-lg p-4 flex items-center bg-[#fff]'>
+                <div className='flex flex-col gap-[29px]'>
+                    <div className='flex flex-col gap-1'>
+                        <p className='font-Hat font-semibold text-[#23272E] text-[17px]'>Pending Orders</p>
+                        <p className='font-Hat text-[#8B909A] text-[13px]'>Last 7 days</p>
+                    </div>
+                    <div className='flex flex-col gap-1'>
+                        <p className='text-[#23272E] font-Hat font-bold text-[31px]'>{allPendingOrders?.length}</p>
+                        <p>Last 7 days</p>
+                    </div>
+                </div>
+                {/* <ResponsiveContainer>
+                    <LineChart width={150} height={50} data={data}
+                        margin={{ top: 5, right: 10, left: 30, bottom: 5 }}
+                    >
+                        {/* <CartesianGrid strokeDasharray="3 3" /> */}
+                        {/* <XAxis dataKey="name" /> */}
+                        {/* <YAxis /> */}
+                        {/* <Tooltip /> */}
+                        {/* <Legend /> 
+                        <Line type="monotone" dataKey="pv" stroke="#D02626" />
 
-        <div>
-          <div className='w-[354px] h-[197px] rounded-lg p-4 flex items-center bg-[#fff]'>
-              <div className='flex flex-col gap-[29px]'>
-                  <div className='flex flex-col gap-1'>
-                      <p className='font-Hat font-semibold text-[#23272E] text-[17px]'>Pending Orders</p>
-                      <p className='font-Hat text-[#8B909A] text-[13px]'>Last 7 days</p>
-                  </div>
-                  <div className='flex flex-col gap-1'>
-                      <p className='text-[#23272E] font-Hat font-bold text-[31px]'>20</p>
-                      <p>Last 7 days</p>
-                  </div>
-              </div>
-              <ResponsiveContainer>
-                  <LineChart width={150} height={50} data={data}
-                      margin={{ top: 5, right: 10, left: 30, bottom: 5 }}
-                  >
-                      {/* <CartesianGrid strokeDasharray="3 3" /> */}
-                      {/* <XAxis dataKey="name" /> */}
-                      {/* <YAxis /> */}
-                      <Tooltip />
-                      {/* <Legend /> */}
-                      <Line type="monotone" dataKey="pv" stroke="#D02626" />
-
-                  </LineChart>
-              </ResponsiveContainer>
+                    </LineChart>
+                </ResponsiveContainer> */}
+            </div>
           </div>
-        </div>
+        }
+        {
+          loading ?
+          <Skeleton  variant="rectangular" width={354} height={197} style={{ backgroundColor: 'rgba(0,0,0, 0.06)', borderRadius: "8px"}} />
+          :
+          <div>
+            <div className='w-[354px] h-[197px] rounded-lg p-4 flex items-center bg-[#fff]'>
+                <div className='flex flex-col gap-[29px]'>
+                    <div className='flex flex-col gap-1'>
+                        <p className='font-Hat font-semibold text-[#23272E] text-[17px]'>Completed Orders</p>
+                        <p className='font-Hat text-[#8B909A] text-[13px]'>Last 7 days</p>
+                    </div>
+                    <div className='flex flex-col gap-1'>
+                        <p className='text-[#23272E] font-Hat font-bold text-[31px]'>{allCompletedOrders?.length}</p>
+                        <p>Last 7 days</p>
+                    </div>
+                </div>
+                {/* <ResponsiveContainer>
+                    <LineChart width={150} height={50} data={data}
+                        margin={{ top: 5, right: 10, left: 30, bottom: 5 }}
+                    >
+                        {/* <CartesianGrid strokeDasharray="3 3" /> */}
+                        {/* <XAxis dataKey="name" /> */}
+                        {/* <YAxis /> */}
+                        {/* <Tooltip /> */}
+                        {/* <Legend /> 
+                        <Line type="monotone" dataKey="pv" stroke="#D02626" />
 
-        <div>
-          <div className='w-[354px] h-[197px] rounded-lg p-4 flex items-center bg-[#fff]'>
-              <div className='flex flex-col gap-[29px]'>
-                  <div className='flex flex-col gap-1'>
-                      <p className='font-Hat font-semibold text-[#23272E] text-[17px]'>Completed Orders</p>
-                      <p className='font-Hat text-[#8B909A] text-[13px]'>Last 7 days</p>
-                  </div>
-                  <div className='flex flex-col gap-1'>
-                      <p className='text-[#23272E] font-Hat font-bold text-[31px]'>20</p>
-                      <p>Last 7 days</p>
-                  </div>
-              </div>
-              <ResponsiveContainer>
-                  <LineChart width={150} height={50} data={data}
-                      margin={{ top: 5, right: 10, left: 30, bottom: 5 }}
-                  >
-                      {/* <CartesianGrid strokeDasharray="3 3" /> */}
-                      {/* <XAxis dataKey="name" /> */}
-                      {/* <YAxis /> */}
-                      <Tooltip />
-                      {/* <Legend /> */}
-                      <Line type="monotone" dataKey="pv" stroke="#D02626" />
-
-                  </LineChart>
-              </ResponsiveContainer>
+                    </LineChart>
+                </ResponsiveContainer> */}
+            </div>
           </div>
-        </div>
+        }
+
+
       </div>
 
       <div className='flex items-center gap-4 mt-[44px]'>
@@ -158,10 +258,10 @@ const Orders = () => {
       </div>
       <hr />
 
-      {activeTab === "All" && <AllOrders />}
-      {activeTab === "Pending" && <Pending />}
-      {activeTab === "Completed" && <Completed />}
-      {activeTab === "Cancelled" && <Cancelled />}
+      {activeTab === "All" && <AllOrders allOrders={allOrders} loading={loading}/>}
+      {activeTab === "Pending" && <Pending allPendingOrders={allPendingOrders} loading={loading}/>}
+      {activeTab === "Completed" && <Completed allCompletedOrders={allCompletedOrders} loading={loading} />}
+      {activeTab === "Cancelled" && <Cancelled allCancelledOrders={allCancelledOrders} loading={loading} />}
 
     </div>
   )

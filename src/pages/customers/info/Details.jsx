@@ -11,19 +11,19 @@ const Details = ({ info }) => {
             <div className='flex items-center gap-[85px]'>
                 <div className='flex flex-col gap-1.5'>
                     <p className='uppercase text-[#5C6F7F] font-bold text-xs'>Customer name</p>
-                    <p className='text-[#071827] font-Mont text-sm'>Salon</p>
+                    <p className='text-[#071827] font-Mont text-sm'>{info?.full_name || "N/A"}</p>
                 </div>
                 <div className='flex flex-col gap-1.5'>
                     <p className='uppercase text-[#5C6F7F] font-bold text-xs'>Customer id</p>
-                    <p className='text-[#071827] font-Mont text-sm'>{info?.id}</p>
+                    <p className='text-[#071827] font-Mont text-sm'>{info?.id || "N/A"}</p>
                 </div>
                 <div className='flex flex-col gap-1.5'>
                     <p className='uppercase text-[#5C6F7F] font-bold text-xs'>email address</p>
-                    <p className='text-[#071827] font-Mont text-sm'>{info?.email}</p>
+                    <p className='text-[#071827] font-Mont text-sm'>{info?.email || "N/A"}</p>
                 </div>
                 <div className='flex flex-col gap-1.5'>
                     <p className='uppercase text-[#5C6F7F] font-bold text-xs'>Phone number</p>
-                    <p className='text-[#071827] font-Mont text-sm'>{info?.phone}</p>
+                    <p className='text-[#071827] font-Mont text-sm'>{info?.phone_number || "N/A"}</p>
                 </div>
 
             </div>
@@ -35,25 +35,25 @@ const Details = ({ info }) => {
             <div className='flex  gap-6'>
                 <div className='flex flex-col w-[170px] gap-1.5'>
                     <p className='uppercase text-[#5C6F7F] font-bold text-xs'>Business name</p>
-                    <p className='text-[#071827] font-Mont text-sm'>Samuel Babatunde</p>
+                    <p className='text-[#071827] font-Mont text-sm'>{info?.business_name || "N/A"}</p>
                 </div>
                 <div className='flex flex-col w-[203px] gap-1.5'>
                     <p className='uppercase text-[#5C6F7F] font-bold text-xs'> Business phone number</p>
-                    <p className='text-[#071827] font-Mont text-sm'>09013296574</p>
+                    <p className='text-[#071827] font-Mont text-sm'>{info?.phone_number || "N/A"}</p>
                 </div>
                 <div className='flex flex-col gap-1.5 w-[184px]'>
                     <p className='uppercase text-[#5C6F7F] font-bold text-xs'> Business address</p>
-                    <p className='text-[#071827] font-Mont text-sm'>12, Ayilara Street, Palmgroove. Lagos</p>
+                    <p className='text-[#071827] font-Mont text-sm'>{info?.business_address || "N/A"}</p>
                 </div>
             </div>
             <div className='flex items-center gap-10'>
                 <div className='flex flex-col w-[156px] gap-1.5'>
                     <p className='uppercase text-[#5C6F7F] font-bold text-xs'> business email</p>
-                    <p className='text-[#071827] font-Mont text-sm'>31.09.2021, 3:52PM</p>
+                    <p className='text-[#071827] font-Mont text-sm'>{info?.business_mail || "N/A"}</p>
                 </div>
                 <div className='flex flex-col w-[156px]  gap-1.5'>
                     <p className='uppercase text-[#5C6F7F] font-bold text-xs'>  Date created</p>
-                    <p className='text-[#071827] font-Mont text-sm'>31.09.2021, 3:52PM</p>
+                    <p className='text-[#071827] font-Mont text-sm'>{new Date(info?.created_at).toLocaleString()}</p>
                 </div>
             </div>
 

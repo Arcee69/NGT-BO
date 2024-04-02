@@ -1,19 +1,27 @@
 import React, { useState } from 'react'
-import { IoIosArrowBack } from "react-icons/io";
+import { IoIosArrowBack, IoMdDoneAll } from "react-icons/io";
 import { useLocation, useNavigate } from 'react-router-dom';
+
 import Details from './Details';
 import Invoices from './Invoices';
+import ModalPop from '../../../components/modalPop';
+import AssignOrder from './AssignOrder';
+import OrderComplete from './OrderComplete';
+import DeliveredOrder from './DeliveredOrder';
 
 const OrderDetails = () => {
     const [activeTab, setActiveTab] = useState("Details")
+    const [openAssignOrder, setOpenAssignOrder] = useState(false)
+    const [openOrderComplete, setOpenOrderComplete] = useState(false)
+    const [openDeliveredOrder, setOpenDeliveredOrder] = useState(false)
 
     const navigate = useNavigate()
 
     const status  = "Pending" 
 
-    
-
     const handleChangeTab = (tab) => setActiveTab(tab)
+
+
   return (
     <div className='p-8'>
         <div className='flex cursor-pointer items-center gap-2' onClick={() => navigate(-1)}>
@@ -32,6 +40,7 @@ const OrderDetails = () => {
                 <button 
                     type='button'
                     className='w-[159px] h-[38px] bg-[#000] text-center text-[#fff] rounded'
+                    onClick={() => setOpenDeliveredOrder(true)}
                 >
                     Assign Order
                 </button>
@@ -64,6 +73,18 @@ const OrderDetails = () => {
 
         {activeTab === "Details" && <Details  />}
         {activeTab === "Invoice" && <Invoices />}
+
+        <ModalPop isOpen={openAssignOrder}>
+            <AssignOrder handleClose={() => setOpenAssignOrder(false)}/>
+        </ModalPop>
+
+        <ModalPop isOpen={openOrderComplete}>
+            <OrderComplete handleClose={() => setOpenOrderComplete(false)}/>
+        </ModalPop>
+
+        <ModalPop isOpen={openDeliveredOrder}>
+            <DeliveredOrder handleClose={() => setOpenDeliveredOrder(false)}/>
+        </ModalPop>
 
     </div>
   )
