@@ -15,7 +15,7 @@ const Details = ({ info }) => {
                 </div>
                 <div className='flex flex-col gap-1.5'>
                     <p className='uppercase text-[#5C6F7F] font-bold text-xs'>Customer id</p>
-                    <p className='text-[#071827] font-Mont text-sm'>{info?.id || "N/A"}</p>
+                    <p className='text-[#071827] font-Mont text-sm'>{`#${info?.id?.substring(0, 8)}` || "N/A"}</p>
                 </div>
                 <div className='flex flex-col gap-1.5'>
                     <p className='uppercase text-[#5C6F7F] font-bold text-xs'>email address</p>

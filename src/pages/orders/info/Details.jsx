@@ -1,8 +1,28 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
+
 import InfoImg from "../../../assets/svg/info.svg"
 import Check from "../../../assets/svg/check.svg"
 
-const Details = () => {
+import { appUrls } from '../../../services/urls'
+import { api } from '../../../services/api'
+
+const Details = ({ state }) => {
+  const [userDetails, setUserDetails] = useState([])
+
+  const getUserDetails = async () => {
+    await api.get(`${appUrls?.GET_CUSTOMER_URL_BY_ID}/${state?.user_id}`)
+    .then((res) => {
+        console.log(res, "apake")
+        setUserDetails(res?.data?.data?.user)
+    })
+    .catch((err) => {
+        console.log(err, "falz")
+    })
+  }
+
+  useEffect(() => {
+      getUserDetails()
+  }, []);
 
   const data = [
     {
@@ -27,6 +47,8 @@ const Details = () => {
     },
   ]
 
+  console.log(userDetails, "userDetails")
+
   return (
     <div className='mt-6'>
       <div className='flex gap-[28px]'>
@@ -46,38 +68,38 @@ const Details = () => {
             <div className='flex items-center gap-[45px]'>
               <div className='flex flex-col gap-1 w-[156px] h-[47px]'>
                 <p className='text-[#5C6F7F] font-Mont font-bold text-xs'>ORDER TYPE</p>
-                <p>Salon</p>
+                <p>{userDetails?.type}</p>
               </div>
               <div className='flex flex-col gap-1 w-[156px] h-[47px]'>
                 <p className='text-[#5C6F7F] font-Mont font-bold text-xs'>ORDER ID</p>
-                <p>7474848438</p>
+                <p>{`#${state?.id?.substring(0, 8)}`}</p>
               </div>
               <div className='flex flex-col gap-1 w-[156px] h-[47px]'>
                 <p className='text-[#5C6F7F] font-Mont font-bold text-xs'>ORDER VALUE</p>
-                <p>$2647.32</p>
+                <p>{`₦${state?.total_amount}`}</p>
               </div>
             </div>
             <p>Vendor Details</p>
             <div className='flex items-center flex-wrap gap-[45px]'>
               <div className='flex flex-col gap-1 w-[156px] h-[47px]'>
                 <p className='text-[#5C6F7F] font-Mont font-bold text-xs'>CUSTOMER NAME</p>
-                <p>Samuel Babatunde</p>
+                <p>{userDetails?.full_name}</p>
               </div>
               <div className='flex flex-col gap-1 w-[156px] h-[47px]'>
                 <p className='text-[#5C6F7F] font-Mont font-bold text-xs'>CUSTOMER PHONE NUMBER</p>
-                <p>09013296574</p>
+                <p>{userDetails?.phone_number}</p>
               </div>
               <div className='flex flex-col gap-1 w-[156px] h-[47px]'>
                 <p className='text-[#5C6F7F] font-Mont font-bold text-xs'>DROP-OFF</p>
-                <p>12, Ayilara Street, Palmgroove. Lagos</p>
+                <p>{state?.address}</p>
               </div>
               <div className='flex flex-col gap-1 w-[156px] h-[47px]'>
                 <p className='text-[#5C6F7F] font-Mont font-bold text-xs'>DATE OF ORDER</p>
-                <p>31.09.2021, 3:52PM</p>
+                <p>{`${new Date(state?.created_at).toLocaleString().slice(0, 15)} AM`}</p>
               </div>
               <div className='flex flex-col gap-1 w-[156px] h-[47px]'>
                 <p className='text-[#5C6F7F] font-Mont font-bold text-xs'>DELIVERY DATE</p>
-                <p>31.09.2021, 3:52PM</p>
+                <p>Nil</p> {/* 31.09.2021, 3:52PM */}
               </div>
             </div>
 

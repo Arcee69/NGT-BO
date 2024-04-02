@@ -17,6 +17,10 @@ const OrderDetails = () => {
 
     const navigate = useNavigate()
 
+    const { state } = useLocation()
+
+    console.log(state, "dddo")
+
     const status  = "Pending" 
 
     const handleChangeTab = (tab) => setActiveTab(tab)
@@ -32,15 +36,15 @@ const OrderDetails = () => {
         </div>
         <div className='flex flex-col gap-2 mt-6'>
             <div className='flex items-center gap-2'>
-                <p className='text-[#071827] text-[32px] font-medium font-Mont'>#S7565882367-ID</p>
-                <p className='font-Mont text-[#5C6F7F] text-base'>December 1, 2023 at</p>
+                <p className='text-[#071827] text-[32px] font-medium font-Mont'>{`#${state?.id?.substring(0, 8)}`}</p>
+                <p className='font-Mont text-[#5C6F7F] text-base'>{`${new Date(state?.created_at).toDateString().slice(3)} at ${new Date(state?.created_at).toLocaleTimeString()} `}</p>
                 <div className={`rounded-lg h-8 flex justify-center items-center ${status === 'Pending' && 'w-[78px]  bg-[#FFC60029]'} ${status === 'success' && ' w-[99px] bg-[#ECFDF5]'} ${status === 'Cancelled' && 'w-[92px] bg-[#FFF1F2]'} `}>
                     <p className={`text-sm font-Mont text-left ${status === 'Pending' && 'text-[#FFC600]'} ${status === 'success' && 'text-[#10B981]'} ${status === 'Cancelled' && 'text-[#F43F5E]'} `}>{status}</p>
                 </div>
                 <button 
                     type='button'
                     className='w-[159px] h-[38px] bg-[#000] text-center text-[#fff] rounded'
-                    onClick={() => setOpenDeliveredOrder(true)}
+                    onClick={() => setOpenAssignOrder(true)}
                 >
                     Assign Order
                 </button>
@@ -71,7 +75,7 @@ const OrderDetails = () => {
         </div>
         <hr />
 
-        {activeTab === "Details" && <Details  />}
+        {activeTab === "Details" && <Details state={state} />}
         {activeTab === "Invoice" && <Invoices />}
 
         <ModalPop isOpen={openAssignOrder}>
