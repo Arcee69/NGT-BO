@@ -3,12 +3,15 @@ import { GiHamburgerMenu } from 'react-icons/gi'
 import { IoIosArrowDown } from "react-icons/io";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
+import { useNavigate } from "react-router-dom"
 
 import Search from "../assets/png/search.png"
 import Notification from "../assets/png/notification.png"
 
 const Header = () => {
     const [anchorEl, setAnchorEl] = useState(null);
+
+    const navigate = useNavigate()
 
     const open = Boolean(anchorEl);
     const handleClick = (event) => {
@@ -19,8 +22,8 @@ const Header = () => {
     };
 
     const logOut = () => {
-        sessionStorage.removeItem("token")
-        sessionStorage.removeItem("userObj")
+        localStorage.removeItem("token")
+        localStorage.removeItem("userObj")
         navigate("/")
     }
 

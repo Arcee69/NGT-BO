@@ -7,5 +7,11 @@ export const appUrls = {
 
    //CUSTOMER ENDPOINT
    GET_CUSTOMER_URL: "/user/all",
-   GET_CUSTOMER_URL_BY_ID: "/user"
+   GET_CUSTOMER_URL_BY_ID: "/user",
+
+   //PRODUCTS ENDPOINT
+   PRODUCTS_URL: "/product",
+
+   //CATEGORY ENDPOINT
+   GET_PRODUCTS_CATEGORY_URL: "/category"
 };

@@ -17,6 +17,10 @@ export default {
           100: "#23272E"
         },
 
+        RED: {
+          _100: "#AF202D"
+        },
+
         MODAL_BACKGROUND: "rgba(0, 0, 0, 0.23)",
       }
 
