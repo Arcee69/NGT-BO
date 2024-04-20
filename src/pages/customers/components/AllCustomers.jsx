@@ -7,6 +7,10 @@ import ReactPaginate from 'react-paginate';
 
 import Empty from "../../../assets/png/empty.png"
 import { Skeleton } from '@mui/material';
+import ModalPop from '../../../components/modalPop';
+import Approved from '../modals/Approved';
+import Suspend from '../modals/Suspend';
+import Delete from '../modals/Delete';
 
 const AllCustomers = ({ users, loading }) => {
   const [text, setText] = useState("")
@@ -14,6 +18,12 @@ const AllCustomers = ({ users, loading }) => {
   const [page, setPage] = useState(1);
   const [perPage, setPerPage] = useState(10)
   const [itemOffset, setItemOffset] = useState(0);
+  const [openApprove, setOpenApprove] = useState(false);
+  const [openSuspend, setOpenSuspend] = useState(false);
+  const [openDelete, setOpenDelete] = useState(false);
+  const [approveData, setApproveData] = useState([]);
+  const [suspendData, setSuspendData] = useState([]);
+  const [deleteData, setDeleteData] = useState([]);
 
   const navigate = useNavigate()
 
@@ -188,7 +198,7 @@ const AllCustomers = ({ users, loading }) => {
             </tr>
 
             {users?.length > 0 ? users?.map((data, index) => (
-                <tr key={index} className='bg-white h-[56px] border-t cursor-pointer border-grey-100' onClick={() => navigate('/customers/details', { state: data }, window.scroll(0, 0))}>
+                <tr key={index} className='bg-white h-[56px] border-t cursor-pointer border-grey-100' > {/* onClick={() => navigate('/customers/details', { state: data }, window.scroll(0, 0))} */}
                     <td className='h-[70px] px-4'>
                         <p className='text-sm font-semibold font-Mont text-dark-100 text-center'>{`#${data?.id?.substring(0, 8)}`}</p> 
                     </td>
@@ -222,9 +232,12 @@ const AllCustomers = ({ users, loading }) => {
                             <Popover.Panel>
                                 <Popover.Button
                                     style={{boxShadow: '0px 13px 40px 0px rgba(0, 0, 0, 0.15)'}}
-                                    className="cursor-pointer py-4 px-6 w-[192px] rounded-lg z-10 absolute bg-white border border-grey-100 right-10"
+                                    className="cursor-pointer py-2 px-4 w-[192px] rounded-lg z-10 flex flex-col  absolute bg-white border border-grey-100 right-10"
                                 >
-                                    <p onClick={() => navigate('/customers/details', { state: data }, window.scroll(0, 0))} className='bg-white text-start text-[15px]'>View</p>
+                                    <p onClick={() => navigate('/customers/details', { state: data }, window.scroll(0, 0))} className='w-full p-2 bg-white hover:bg-[#ccc] hover:rounded-lg text-start text-[15px]'>View</p>
+                                    <p onClick={() => { setOpenApprove(true); setApproveData(data)}} className='w-full p-2 bg-white hover:bg-[#ccc] hover:rounded-lg text-start text-[15px]'>Approve</p>
+                                    <p onClick={() => { setOpenSuspend(true); setSuspendData(data)}} className='w-full p-2 bg-white hover:bg-[#ccc] hover:rounded-lg text-start text-[15px]'>Suspend</p>
+                                    <p onClick={() => { setOpenDelete(true); setDeleteData(data)}} className='w-full p-2 bg-white hover:bg-[#ccc] hover:rounded-lg text-start text-[15px]'>Delete</p>
                                 </Popover.Button>
                             </Popover.Panel>
                         </Popover>
@@ -257,6 +270,18 @@ const AllCustomers = ({ users, loading }) => {
           </div>
         </>
       }
+
+      <ModalPop isOpen={openApprove}>
+        <Approved handleClose={() => setOpenApprove(false)} approveData={approveData} />
+      </ModalPop>
+
+      <ModalPop isOpen={openSuspend}>
+        <Suspend handleClose={() => setOpenSuspend(false)} suspendData={suspendData} />
+      </ModalPop>
+
+      <ModalPop isOpen={openDelete}>
+        <Delete handleClose={() => setOpenDelete(false)} deleteData={deleteData} />
+      </ModalPop>
 
     </div>
   )

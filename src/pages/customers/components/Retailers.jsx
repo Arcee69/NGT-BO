@@ -19,106 +19,106 @@ const Retailers = ({ allRetailUsers, loading }) => {
 
   const handleText = (e) => setText(e.target.value)
 
-  const allCustomersData = [
-    {
-      id: "#0007366388",
-      businessName: "Beauty Emporium",
-      address: "123 Main Street",
-      phone: "(555) 555-1234",
-      email: "info@example.com",
-      type: "Salon",
-      capacity: 'N/A (Services)'
-    },
-    {
-      id: "#0007366388",
-      businessName: "Beauty Emporium",
-      address: "123 Main Street",
-      phone: "(555) 555-1234",
-      email: "info@example.com",
-      type: "Salon",
-      capacity: 'N/A (Services)'
-    },
-    {
-      id: "#0007366388",
-      businessName: "Beauty Emporium",
-      address: "123 Main Street",
-      phone: "(555) 555-1234",
-      email: "info@example.com",
-      type: "Salon",
-      capacity: 'N/A (Services)',
-      status: "Pending"
-    },
-    {
-      id: "#0007366388",
-      businessName: "Beauty Emporium",
-      address: "123 Main Street",
-      phone: "(555) 555-1234",
-      email: "info@example.com",
-      type: "Salon",
-      capacity: 'N/A (Services)',
-      status: "Pending"
-    },
-    {
-      id: "#0007366388",
-      businessName: "Beauty Emporium",
-      address: "123 Main Street",
-      phone: "(555) 555-1234",
-      email: "info@example.com",
-      type: "Salon",
-      capacity: 'N/A (Services)',
-      status: "Pending"
-    },
-    {
-      id: "#0007366388",
-      businessName: "Beauty Emporium",
-      address: "123 Main Street",
-      phone: "(555) 555-1234",
-      email: "info@example.com",
-      type: "Salon",
-      capacity: 'N/A (Services)',
-      status: "Pending"
-    },
-    {
-      id: "#0007366388",
-      businessName: "Beauty Emporium",
-      address: "123 Main Street",
-      phone: "(555) 555-1234",
-      email: "info@example.com",
-      type: "Salon",
-      capacity: 'N/A (Services)',
-      status: "Pending"
-    },
-    {
-      id: "#0007366388",
-      businessName: "Beauty Emporium",
-      address: "123 Main Street",
-      phone: "(555) 555-1234",
-      email: "info@example.com",
-      type: "Salon",
-      capacity: 'N/A (Services)',
-      status: "Pending"
-    },
-    {
-      id: "#0007366388",
-      businessName: "Beauty Emporium",
-      address: "123 Main Street",
-      phone: "(555) 555-1234",
-      email: "info@example.com",
-      type: "Salon",
-      capacity: 'N/A (Services)',
-      status: "Pending"
-    },
-    {
-      id: "#0007366388",
-      businessName: "Beauty Emporium",
-      address: "123 Main Street",
-      phone: "(555) 555-1234",
-      email: "info@example.com",
-      type: "Salon",
-      capacity: 'N/A (Services)',
-      status: "Pending"
-    },
-  ]
+  // const allCustomersData = [
+  //   {
+  //     id: "#0007366388",
+  //     businessName: "Beauty Emporium",
+  //     address: "123 Main Street",
+  //     phone: "(555) 555-1234",
+  //     email: "info@example.com",
+  //     type: "Salon",
+  //     capacity: 'N/A (Services)'
+  //   },
+  //   {
+  //     id: "#0007366388",
+  //     businessName: "Beauty Emporium",
+  //     address: "123 Main Street",
+  //     phone: "(555) 555-1234",
+  //     email: "info@example.com",
+  //     type: "Salon",
+  //     capacity: 'N/A (Services)'
+  //   },
+  //   {
+  //     id: "#0007366388",
+  //     businessName: "Beauty Emporium",
+  //     address: "123 Main Street",
+  //     phone: "(555) 555-1234",
+  //     email: "info@example.com",
+  //     type: "Salon",
+  //     capacity: 'N/A (Services)',
+  //     status: "Pending"
+  //   },
+  //   {
+  //     id: "#0007366388",
+  //     businessName: "Beauty Emporium",
+  //     address: "123 Main Street",
+  //     phone: "(555) 555-1234",
+  //     email: "info@example.com",
+  //     type: "Salon",
+  //     capacity: 'N/A (Services)',
+  //     status: "Pending"
+  //   },
+  //   {
+  //     id: "#0007366388",
+  //     businessName: "Beauty Emporium",
+  //     address: "123 Main Street",
+  //     phone: "(555) 555-1234",
+  //     email: "info@example.com",
+  //     type: "Salon",
+  //     capacity: 'N/A (Services)',
+  //     status: "Pending"
+  //   },
+  //   {
+  //     id: "#0007366388",
+  //     businessName: "Beauty Emporium",
+  //     address: "123 Main Street",
+  //     phone: "(555) 555-1234",
+  //     email: "info@example.com",
+  //     type: "Salon",
+  //     capacity: 'N/A (Services)',
+  //     status: "Pending"
+  //   },
+  //   {
+  //     id: "#0007366388",
+  //     businessName: "Beauty Emporium",
+  //     address: "123 Main Street",
+  //     phone: "(555) 555-1234",
+  //     email: "info@example.com",
+  //     type: "Salon",
+  //     capacity: 'N/A (Services)',
+  //     status: "Pending"
+  //   },
+  //   {
+  //     id: "#0007366388",
+  //     businessName: "Beauty Emporium",
+  //     address: "123 Main Street",
+  //     phone: "(555) 555-1234",
+  //     email: "info@example.com",
+  //     type: "Salon",
+  //     capacity: 'N/A (Services)',
+  //     status: "Pending"
+  //   },
+  //   {
+  //     id: "#0007366388",
+  //     businessName: "Beauty Emporium",
+  //     address: "123 Main Street",
+  //     phone: "(555) 555-1234",
+  //     email: "info@example.com",
+  //     type: "Salon",
+  //     capacity: 'N/A (Services)',
+  //     status: "Pending"
+  //   },
+  //   {
+  //     id: "#0007366388",
+  //     businessName: "Beauty Emporium",
+  //     address: "123 Main Street",
+  //     phone: "(555) 555-1234",
+  //     email: "info@example.com",
+  //     type: "Salon",
+  //     capacity: 'N/A (Services)',
+  //     status: "Pending"
+  //   },
+  // ]
 
     //Get Current data
     const endOffset = itemOffset + perPage;

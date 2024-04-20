@@ -35,11 +35,11 @@ const Details = ({ state }) => {
     },
     {
       title: "Order has been  accepted",
-      time: "Not yet"
+      time: "31.09.2021, 3:52PM"
     },
     {
-      title: "Out for delivery",
-      time: "Not yet"
+      title: "Shipped",
+      time: "31.09.2021, 3:52PM"
     },
     {
       title: "Order Delivered",
@@ -48,12 +48,13 @@ const Details = ({ state }) => {
   ]
 
   console.log(userDetails, "userDetails")
+  console.log(state, "pablo")
 
   return (
     <div className='mt-6'>
       <div className='flex gap-[28px]'>
         <div className='flex flex-col gap-6'>
-          <div className='w-[730px] bg-[#fff] h-[48px] flex items-center border border-[#FF705E] border-l-4 border-b-0 border-t-0 border-r-0 justify-between p-2'>
+          <div className={`${state?.assignee_status === "accepted" ? "hidden" : 'w-[730px] bg-[#fff] h-[48px] flex items-center border border-[#FF705E] border-l-4 border-b-0 border-t-0 border-r-0 justify-between p-2' }`}>
               <div className='flex items-center gap-2'>
                 <img src={InfoImg} alt='info' />
                 <p className='font-Mont font-semibold text-[#071827] text-sm'>Order needs attention</p>

@@ -124,10 +124,10 @@ const Orders = () => {
     <div className='p-8'>
       <div className='flex items-center justify-between'>
         <p className='text-[24px] text-[#23272E] font-bold'>Order Management</p>
-        <div className='bg-[#8CAD07] flex items-center justify-between w-[159px] h-[38px] p-2 rounded'>
+        {/* <div className='bg-[#8CAD07] flex items-center justify-between w-[159px] h-[38px] p-2 rounded'>
           <p className='text-[#fff] font-Mont font-medium'>Create Order</p>
           <FaPlus className='w-4 h-4 text-[#fff]' />
-        </div>
+        </div> */}
       </div>
       <div className='mt-[33px] flex items-center gap-[17px]'>
         {

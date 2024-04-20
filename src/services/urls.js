@@ -13,5 +13,17 @@ export const appUrls = {
    PRODUCTS_URL: "/product",
 
    //CATEGORY ENDPOINT
-   GET_PRODUCTS_CATEGORY_URL: "/category"
+   GET_PRODUCTS_CATEGORY_URL: "/category",
+
+   //ANALYTICS ENDPOINT 
+   FETCH_ANALYTICS_URL: "/analytics/admin",
+
+   //TRANSACTION ENDPOINT
+   FETCH_TRANSACTION_URL: "/transactions",
+
+   //VERIFY CUSTOMER
+   VERIFY_CUSTOMER_URL: "/user/verification",
+
+   //ASSIGN ORDER
+   ASSIGN_ORDER_URL: "/order/assign"
 };

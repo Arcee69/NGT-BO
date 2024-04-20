@@ -19,7 +19,7 @@ const CustomersDetails = () => {
             <div className='w-[32px] h-[32px] bg-[#EDF2F7] items-center  rounded-full flex justify-center'>
                 <IoIosArrowBack />
             </div>
-            <p className='text-[#071827] font-sm font-Mont'>Orders</p>
+            <p className='text-[#071827] font-sm font-Mont'>Customers</p>
         </div>
         <div className='flex flex-col gap-2 mt-6'>
             <div className='flex items-center gap-2'>

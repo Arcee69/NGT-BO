@@ -4,6 +4,8 @@ import { CiSearch } from 'react-icons/ci'
 import ReactPaginate from 'react-paginate'
 
 import Empty from "../../../assets/png/empty.png"
+import { api } from '../../../services/api'
+import { appUrls } from '../../../services/urls'
 
 const AllProducts = ({ loading, allProducts, handleText }) => {  
     const [page, setPage] = useState(1);
@@ -57,27 +59,35 @@ const AllProducts = ({ loading, allProducts, handleText }) => {
                     Product Name
                 </th>
                 <th className="font-medium font-mont text-[#8B909A] px-4 text-[13px] uppercase text-left">
+                    Product Category
+                </th>
+                <th className="font-medium font-mont text-[#8B909A] px-4 text-[13px] uppercase text-left">
                     Price
                 </th>
               </tr>
 
-              {allProducts?.length > 0 ? allProducts?.map((data, index) => (
-                  <tr key={index} className='bg-white h-[56px] border-t cursor-pointer border-grey-100'>
-                      <td className='h-[70px] px-4'>
-                          <p className='text-sm font-semibold font-Mont text-dark-100 text-left'>{`#${data?.id?.substring(0, 8)}`}</p> 
-                      </td>
-                      <td className='h-[70px] px-4'>
-                          <img src={data?.image_1} alt='Product_image' className=' text-left' />
-                      </td>
-                      <td className='h-[70px] px-4'>
-                          <p className='text-sm font-Mont text-dark-100 text-left'>{data?.name || "N/A"}</p>
-                      </td>
-                      <td className='h-[70px] px-4'>
-                          <p className='text-sm font-Mont text-dark-100 text-left'>{`₦${data?.unit_price}`}</p>
-                      </td>
-                    
-                  </tr>
-              )) : (
+              {allProducts?.length > 0 ? allProducts?.map((data, index) =>  {
+                return (
+                    <tr key={index} className='bg-white h-[56px] border-t cursor-pointer border-grey-100'>
+                        <td className='h-[70px] px-4'>
+                            <p className='text-sm font-semibold font-Mont text-dark-100 text-left'>{`#${data?.id?.substring(0, 8)}`}</p> 
+                        </td>
+                        <td className='h-[70px] px-4'>
+                            <img src={data?.image_1} alt='Product_image' className=' text-left' />
+                        </td>
+                        <td className='h-[70px] px-4'>
+                            <p className='text-sm font-Mont text-dark-100 text-left'>{data?.name || "N/A"}</p>
+                        </td>
+                        <td className='h-[70px] px-4'>
+                            <p className='text-sm font-Mont text-dark-100 text-left'>{data?.categoryName|| "N/A"}</p>
+                        </td>
+                        <td className='h-[70px] px-4'>
+                            <p className='text-sm font-Mont text-dark-100 text-left'>{`₦${data?.unit_price}`}</p>
+                        </td>
+                      
+                    </tr>
+                )
+            }) : ( 
                   <tr className='h-[654px] bg-white border-t border-grey-100'>
                       <td colSpan="8" className="relative">
                           <div className='absolute inset-0 flex items-center justify-center'>

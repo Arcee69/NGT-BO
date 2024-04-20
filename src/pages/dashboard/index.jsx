@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { IoIosArrowDown } from "react-icons/io";
 import {LineChart, CartesianGrid, XAxis, YAxis, Legend, Line, Tooltip, ResponsiveContainer } from 'recharts';
 import Chart from "react-apexcharts";
@@ -11,18 +11,64 @@ import ArrowUp from "../../assets/png/arrow_up.png"
 import ArrowDown from "../../assets/png/arrow_down.png"
 
 import Calendar from "../../assets/svg/calendar.svg"
+import { api } from '../../services/api';
+import { appUrls } from '../../services/urls';
+import { Skeleton } from '@mui/material';
 
 
 const Dashboard = () => {
+  const [loadingAnalyticsData, setLoadingAnalyticsData] = useState(false);
+  const [loadingTransactionData, setLoadingTransactionData] = useState(false);
+  const [transactionData, setTransactionData] = useState([]);
+  const [analyticsData, setAnalyticsData] = useState([]);
+  const [allOrders, setAllOrders] = useState([]);
+  const [allOrdersLoading, setAllOrdersLoading] = useState([])
+
+
+  const fetchAnalytics = async () => {
+    setLoadingAnalyticsData(true)
+    await api.get(`${appUrls?.FETCH_ANALYTICS_URL}`)
+    .then((res) => {
+      console.log(res, "analytics")
+      setLoadingAnalyticsData(false);
+      setAnalyticsData(res?.data?.data)
+    })
+    .catch((err) => {
+      setLoadingAnalyticsData(false)
+      console.log(err, "faro")
+    })
+  }
+
+  const fetchTransactions = async () => {
+    setLoadingAnalyticsData(true)
+    await api.get(`${appUrls?.FETCH_TRANSACTION_URL}`)
+    .then((res) => {
+      console.log(res, "transactions")
+      setLoadingAnalyticsData(false);
+      setTransactionData(res?.data?.data?.transactions)
+    })
+    .catch((err) => {
+      setLoadingAnalyticsData(false)
+      console.log(err, "faro")
+    })
+  }
+
+  useEffect(() => {
+    fetchTransactions()
+  }, [])
+
+  useEffect(() => {
+    fetchAnalytics()
+  }, [])
 
   const data = {
-    series: [60, 40, 30, 10],
+    series: [analyticsData?.saloon_sales, analyticsData?.retailer_sales, ],
     options: {
         chart: {
           type: 'donut',
         },
-        labels: [" Distributors", " Dealers", " Salon", " Retail"],
-        colors:[ "#50724D", '#FFD240', "#FD7972", "#FF965D"],
+        labels: [ " Salon", " Retailer"],
+        colors:[  '#FFD240', "#50724D", ],
         dataLabels: {
           enabled: false,
         },
@@ -133,43 +179,63 @@ const Dashboard = () => {
       },
     ];
 
-    const transactionData = [
-      {
-        id: 1,
-        name: "Devon Williamson",
-        date: "08:00 AM  —  19 August",
-        amount: "+$1.400",
-        type: "Payment"
-      },
-      {
-        id: 2,
-        name: "Debra Wilson",
-        date: "08:00 AM  —  19 August",
-        amount: "-$850",
-        type: "Refund"
-      },
-      {
-        id: 3,
-        name: "Judith Black",
-        date: "08:00 AM  —  19 August",
-        amount: "+$1.400",
-        type: "Payment"
-      },
-      {
-        id: 4,
-        name: "Philip Henry",
-        date: "08:00 AM  —  19 August",
-        amount: "+$1.400",
-        type: "Payment"
-      },
-      {
-        id: 5,
-        name: "Mitchell Cooper",
-        date: "08:00 AM  —  19 August",
-        amount: "+$1.400",
-        type: "Payment"
-      },
-    ]
+    // const transactionData = [
+    //   {
+    //     id: 1,
+    //     name: "Devon Williamson",
+    //     date: "08:00 AM  —  19 August",
+    //     amount: "+$1.400",
+    //     type: "Payment"
+    //   },
+    //   {
+    //     id: 2,
+    //     name: "Debra Wilson",
+    //     date: "08:00 AM  —  19 August",
+    //     amount: "-$850",
+    //     type: "Refund"
+    //   },
+    //   {
+    //     id: 3,
+    //     name: "Judith Black",
+    //     date: "08:00 AM  —  19 August",
+    //     amount: "+$1.400",
+    //     type: "Payment"
+    //   },
+    //   {
+    //     id: 4,
+    //     name: "Philip Henry",
+    //     date: "08:00 AM  —  19 August",
+    //     amount: "+$1.400",
+    //     type: "Payment"
+    //   },
+    //   {
+    //     id: 5,
+    //     name: "Mitchell Cooper",
+    //     date: "08:00 AM  —  19 August",
+    //     amount: "+$1.400",
+    //     type: "Payment"
+    //   },
+    // ]
+
+    const getAllOrders = async () => {
+      setAllOrdersLoading(true)
+      await api.get(appUrls?.GET_ORDER_URL)
+      .then((res) => {
+        console.log(res, "asap")
+        setAllOrdersLoading(false)
+        setAllOrders(res?.data?.data?.orders)
+      })
+      .catch((err) => {
+        setAllOrdersLoading(false)
+        console.log(err, "faro")
+      })
+    };
+  
+    console.log(allOrders, "allOrders")
+  
+    useEffect(() => {
+      getAllOrders()
+    }, [])
     
 
   return (
@@ -193,21 +259,21 @@ const Dashboard = () => {
         <div className='flex justify-between items-center w-[350px] bg-[#fff] p-2 rounded-xl'>
           <div className='flex flex-col gap-2'>
             <p className='text-[15px] text-[#8A9099] font-Hat'>Total Income</p>
-            <p className='text-[#3F434A] font-Hat font-medium text-[30px] '>$8.500</p>
+            <p className='text-[#3F434A] font-Hat font-medium text-[30px] '>{`₦${analyticsData?.total_income || 0}`}</p>
           </div>
           <img src={Dollar} alt='dollar' className='w-[66px] h-[66px]'/>
         </div>
         <div className='flex justify-between items-center w-[350px] bg-[#fff] p-2 rounded-xl'>
           <div className='flex flex-col gap-2'>
             <p className='text-[15px] text-[#8A9099] font-Hat'>Total Sales</p>
-            <p className='text-[#3F434A] font-Hat font-medium text-[30px] '>3.500k</p>
+            <p className='text-[#3F434A] font-Hat font-medium text-[30px] '>{analyticsData?.total_sales || 0}</p>
           </div>
           <img src={ChartImg} alt='chart' className='w-[66px] h-[66px]'/>
         </div>
         <div className='flex justify-between items-center w-[350px] bg-[#fff] p-2 rounded-xl'>
           <div className='flex flex-col gap-2'>
             <p className='text-[15px] text-[#8A9099] font-Hat'>New Customers</p>
-            <p className='text-[#3F434A] font-Hat font-medium text-[30px] '>2.500k</p>
+            <p className='text-[#3F434A] font-Hat font-medium text-[30px] '>{analyticsData?.new_customers || 0}</p>
           </div>
           <img src={User} alt='user' className='w-[66px] h-[66px]'/>
         </div>
@@ -227,63 +293,70 @@ const Dashboard = () => {
           <div className='flex flex-col items-start' style={{marginTop: "10px"}}> 
               <div className='relative flex  items-center'>
                 <Chart options={data?.options} series={data?.series} type="donut" width="400" /> 
-                <div className='absolute top-1/2 left-[35%] transform -translate-x-1/2 -translate-y-1/2 text-center'>
+                <div className='absolute top-1/2 left-[38%] transform -translate-x-1/2 -translate-y-1/2 text-center'>
                   <div className='flex flex-col items-center justify-center'>
-                    <p className='font-medium font-Hat text-[#3F434A] text-[28px]'>1500</p>
+                    <p className='font-medium font-Hat text-[#3F434A] text-[28px]'>{analyticsData?.total_sales}</p>
                     <p className='font-Hat text-[#8A9099] text-sm'>total</p>
                   </div>
                 </div>
               </div>
           </div>
 
-          <button
+          {/* <button
             type='button'
             className='w-[134px] h-[40px] bg-[#304FFD] text-[#fff] flex items-center justify-center font-medium mx-auto mt-[20px] rounded-lg font-Hat'
           >
             View All
-          </button>
+          </button> */}
 
         </div>
 
-        <div className='w-[540px] h-[402px] bg-[#fff] rounded-lg flex p-6 flex-col'>
-          <div className='flex items-center justify-between'>
-            <p className='font-Hat text-[#3F434A] font-medium text-[20px]'>Analytics</p>
-            <div className='flex items-center border p-1.5 rounded-xl'>
-              {/* <img src={Calendar} alt='calender'/> */}
-              <input type='date' className='outline-none appearance-none' placeholder='01/01/1900'/>
-            </div>
-          </div>
-          <div className='flex items-center gap-[47px] mt-[23px] mb-[23px]'>
-            <div className='w-[116px] flex items-center h-[40px] gap-4'>
-              <img src={ArrowUp} alt='arrow-up' className='w-[40px] h-[40px]' />
-              <p className='font-Hat text-[#3F434A] text-lg '>$5.850</p>
-            </div>
-            <div className='w-[116px] flex items-center h-[40px] gap-4'>
-              <img src={ArrowDown} alt='arrow-down' className='w-[40px] h-[40px]' />
-              <p className='font-Hat text-[#3F434A] text-lg '>$5.850</p>
-            </div>
-          </div>
+        {
+            loadingTransactionData ? (
+            <Skeleton variant='rectangular' width="350px" height="402px"  style={{ backgroundColor: 'rgba(0,0,0, 0.06)', borderRadius: "8px"}} />
+            ) : (
+            <div className='w-[540px] h-[402px] bg-[#fff] rounded-lg flex p-6 flex-col'>
+                <div className='flex items-center justify-between'>
+                <p className='font-Hat text-[#3F434A] font-medium text-[20px]'>Transactions</p>
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="4" viewBox="0 0 20 4" fill="none">
+                  <path fill-rule="evenodd" clip-rule="evenodd" d="M4.15 2C4.15 3.07696 3.27696 3.95 2.2 3.95C1.12304 3.95 0.25 3.07696 0.25 2C0.25 0.923048 1.12304 0.0500031 2.2 0.0500031C3.27696 0.0500031 4.15 0.923048 4.15 2ZM11.95 2C11.95 3.07696 11.077 3.95 10 3.95C8.92304 3.95 8.05 3.07696 8.05 2C8.05 0.923048 8.92304 0.0500031 10 0.0500031C11.077 0.0500031 11.95 0.923048 11.95 2ZM17.8 3.95C18.877 3.95 19.75 3.07696 19.75 2C19.75 0.923048 18.877 0.0500031 17.8 0.0500031C16.723 0.0500031 15.85 0.923048 15.85 2C15.85 3.07696 16.723 3.95 17.8 3.95Z" fill="#8A9099"/>
+                </svg>
+              </div>
+              <div className='flex flex-col gap-[22px] mt-[35px]'>
+                {
+                  transactionData?.length > 0 ? transactionData.map((data, index) => (
+                    <div key={index} className='flex items-center justify-between'>
+                        <div className='flex flex-col'>
+                          <p className='font-Hat text-sm text-[#3F434A]'>{data?.user?.full_name}</p>
+                          <p className='text-[11px] font-Hat text-[#8A9099]'>{`${new Date(data?.created_at).toLocaleTimeString()} - ${new Date(data?.created_at).toDateString().slice(4)}`}</p>
+                        </div>
+                        <div className='flex flex-col items-center'>
+                          <p className={`${data?.status === "Success" ? "text-[#49C96D]" : "text-[#FD7972]"} font-Hat`}>{`${data?.status === "Success" ? `+₦${data?.total_amount}` : `-₦${data?.total_amount}`}` }</p>
+                          <p className='text-[11px] font-Hat text-[#8A9099]'>{data?.status}</p>
+                        </div>
+                    </div>
+                  )) : (
+                    <div className='h-[54px] bg-white border-t border-grey-100'>
+                        <div className="relative">
+                            <div className='absolute top-14 left-1/3 flex items-center justify-center'>
+                                <div className='flex flex-col gap-2 items-center'>
+                                    <img src={Empty} alt='empty' className='w-[159px] h-[103px]'/>
+                                    <p>Oops! Nothing to see here.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                )}
 
-          <ResponsiveContainer>
-            <LineChart width={730} height={250} data={chartdata}
-              margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
-            >
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="name" />
-              <YAxis />
-              <Tooltip />
-              <Legend />
-              <Line type="monotone" dataKey="pv" stroke="#50724D" />
-              <Line type="monotone" dataKey="uv" stroke="#FF965D" />
-            </LineChart>
-          </ResponsiveContainer>
+              </div>
 
-        </div>
-
+            </div>
+            )
+        }
       </div>
 
       <div className='flex items-center gap-[30px] mt-[28px]'>
-        <div className='w-[730px] h-[402px] bg-[#fff] rounded-lg flex p-6 flex-col'>
+        <div className='w-full h-[402px] bg-[#fff] rounded-lg flex p-6 flex-col'>
           <div className='flex items-center justify-between'>
             <p className='font-Hat text-[#3F434A] font-medium text-[20px]'>Last Orders</p>
             <div className='flex items-center border p-1.5 rounded-xl'>
@@ -297,43 +370,58 @@ const Dashboard = () => {
               <p className="font-Hat text-[#8A9099]  text-[13px] text-left">
                   Customer Name
               </p>
-              <div className='flex items-center gap-[43px]'>
-                <p className="font-Hat text-[#8A9099] text-[13px] text-left">
+              <div className='flex items-center gap-[53px]'>
+                <p className="font-Hat text-[#8A9099] w-[100px] text-[13px] text-left">
                     Order No
                 </p>
-                <p className="font-Hat text-[#8A9099] text-[13px] text-left">
+                <p className="font-Hat text-[#8A9099] w-[80px] text-[13px] text-left">
                     Amount
                 </p>
-                <p className="font-Hat text-[#8A9099] text-[13px] text-left">
-                    Payment Type
+                <p className="font-Hat text-[#8A9099] w-[100px] text-[13px] text-left">
+                    Method {/* Payment Type */}
+                </p>
+                <p className="font-Hat text-[#8A9099] w-[90px] text-[13px] text-center">
+                    Assignee
                 </p>
                 <p className="font-Hat text-[#8A9099] text-[13px] text-left">
+                    Order Items
+                </p>
+                <p className="font-Hat text-[#8A9099] text-[13px] ml-5 text-left">
                     Date
                 </p>
+                {/* <p className="font-Hat text-[#8A9099] text-[13px] text-left">
+                    
+                </p> */}
               </div>
             </div>
 
-            {ordersData?.length > 0 ? ordersData?.map((data, index) => (
-                <div key={index} className='bg-[#F8F8F8] w-[682px] flex items-center gap-[75px] my-[8px] h-[56px] rounded-2xl cursor-pointer '>
-                    <div className='px-4 '>
-                        <p className='text-sm font-semibold font-Mont text-dark-100 text-left'>{data?.name}</p> 
+            {allOrders?.length > 0 ? allOrders?.slice(0, 4)?.map((data, index) => (
+                <div key={index} className='bg-[#F8F8F8] w-full flex items-center gap-[75px] my-[8px] h-[56px] rounded-2xl cursor-pointer '>
+                    <div className='px-2 w-[150px]'>
+                        <p className='text-sm font-semibold font-Mont text-dark-100 text-left'>{data?.name || "Not available"}</p> 
                     </div>
                     <div className='flex items-center gap-[43px]'>
-                      <div className=''>
-                          <p className='text-sm font-Mont text-dark-100 text-left'>{data?.no}</p>
+                      <div className='w-[100px]'>
+                          <p className='text-sm font-Mont text-dark-100 text-left'>{`#${data?.id?.substring(0, 8)}`}</p>
                       </div>
-                      <div className=''>
-                          <p className='text-sm font-Mont text-dark-100 text-left'>{data?.amount}</p>
+                      <div className=' w-[50px]'>
+                          <p className='text-sm font-Mont text-dark-100 text-left'>{`₦${data?.total_amount}`}</p>
                       </div>
-                      <div className=''>
-                          <p className='text-sm font-Mont text-dark-100 text-left'>{data?.paymentType}</p>
+                      <div className=' w-[150px]'>
+                          <p className='text-sm font-Mont text-dark-100 text-center'>{data?.delivery_method}</p>
                       </div>
-                      <div className=''>
-                        <p className='text-sm font-Mont text-dark-100 text-left'>{data?.Date}</p> 
+                      <div className='w-[100px]'>
+                          <p className='text-sm font-Mont text-dark-100 text-center'>{data?.assigned_to?.full_name || "N/A"}</p>
                       </div>
-                      <svg xmlns="http://www.w3.org/2000/svg" width="4" height="20" viewBox="0 0 4 20" fill="none">
+                      <div className='w-[100px]'>
+                          <p className='text-sm font-Mont text-dark-100 text-center'>{data?.order_items?.length > 0 ? data?.order_items?.length : 0 }</p>
+                      </div>
+                      <div className='w-[100px]'>
+                        <p className='text-sm font-Mont text-dark-100 text-left'>{new Date(data?.created_at).toLocaleDateString()}</p> 
+                      </div>
+                      {/* <svg xmlns="http://www.w3.org/2000/svg" width="4" height="20" viewBox="0 0 4 20" fill="none">
                         <path fill-rule="evenodd" clip-rule="evenodd" d="M2 15.85C3.07696 15.85 3.95 16.723 3.95 17.8C3.95 18.877 3.07696 19.75 2 19.75C0.923048 19.75 0.0500031 18.877 0.0500031 17.8C0.0500031 16.723 0.923048 15.85 2 15.85ZM2 8.05C3.07696 8.05 3.95 8.92305 3.95 10C3.95 11.077 3.07696 11.95 2 11.95C0.923048 11.95 0.0500031 11.077 0.0500031 10C0.0500031 8.92305 0.923048 8.05 2 8.05ZM3.95 2.2C3.95 1.12304 3.07696 0.25 2 0.25C0.923048 0.25 0.0500031 1.12304 0.0500031 2.2C0.0500031 3.27696 0.923048 4.15 2 4.15C3.07696 4.15 3.95 3.27696 3.95 2.2Z" fill="#8A9099"/>
-                      </svg>
+                      </svg> */}
                     </div>
                 </div>
             )) : (
@@ -351,44 +439,6 @@ const Dashboard = () => {
           </div>
 
   
-        </div>
-
-        <div className='w-[350px] h-[402px] bg-[#fff] rounded-lg p-6 flex flex-col'>
-          <div className='flex items-center justify-between'>
-            <p className='font-Hat text-[#3F434A] font-medium text-[20px]'>Transactions</p>
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="4" viewBox="0 0 20 4" fill="none">
-              <path fill-rule="evenodd" clip-rule="evenodd" d="M4.15 2C4.15 3.07696 3.27696 3.95 2.2 3.95C1.12304 3.95 0.25 3.07696 0.25 2C0.25 0.923048 1.12304 0.0500031 2.2 0.0500031C3.27696 0.0500031 4.15 0.923048 4.15 2ZM11.95 2C11.95 3.07696 11.077 3.95 10 3.95C8.92304 3.95 8.05 3.07696 8.05 2C8.05 0.923048 8.92304 0.0500031 10 0.0500031C11.077 0.0500031 11.95 0.923048 11.95 2ZM17.8 3.95C18.877 3.95 19.75 3.07696 19.75 2C19.75 0.923048 18.877 0.0500031 17.8 0.0500031C16.723 0.0500031 15.85 0.923048 15.85 2C15.85 3.07696 16.723 3.95 17.8 3.95Z" fill="#8A9099"/>
-            </svg>
-          </div>
-
-          <div className='flex flex-col gap-[22px] mt-[35px]'>
-            {
-              transactionData?.length > 0 ? transactionData.map((data, index) => (
-                <div key={index} className='flex items-center justify-between'>
-                    <div className='flex flex-col'>
-                      <p className='font-Hat text-sm text-[#3F434A]'>{data?.name}</p>
-                      <p className='text-[11px] font-Hat text-[#8A9099]'>{data?.date}</p>
-                    </div>
-                    <div className='flex flex-col items-center'>
-                      <p className={`${data?.type === "Payment" ? "text-[#49C96D]" : "text-[#FD7972]"} font-Hat`}>{data?.amount}</p>
-                      <p className='text-[11px] font-Hat text-[#8A9099]'>{data?.type}</p>
-                    </div>
-                </div>
-              )) : (
-                <div className='h-[54px] bg-white border-t border-grey-100'>
-                    <div className="relative">
-                        <div className='absolute top-14 left-1/3 flex items-center justify-center'>
-                            <div className='flex flex-col gap-2 items-center'>
-                                <img src={Empty} alt='empty' className='w-[159px] h-[103px]'/>
-                                <p>Oops! Nothing to see here.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            )}
-
-          </div>
-
         </div>
 
       </div>

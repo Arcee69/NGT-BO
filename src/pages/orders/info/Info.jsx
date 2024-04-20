@@ -38,12 +38,14 @@ const OrderDetails = () => {
             <div className='flex items-center gap-2'>
                 <p className='text-[#071827] text-[32px] font-medium font-Mont'>{`#${state?.id?.substring(0, 8)}`}</p>
                 <p className='font-Mont text-[#5C6F7F] text-base'>{`${new Date(state?.created_at).toDateString().slice(3)} at ${new Date(state?.created_at).toLocaleTimeString()} `}</p>
-                <div className={`rounded-lg h-8 flex justify-center items-center ${status === 'Pending' && 'w-[78px]  bg-[#FFC60029]'} ${status === 'success' && ' w-[99px] bg-[#ECFDF5]'} ${status === 'Cancelled' && 'w-[92px] bg-[#FFF1F2]'} `}>
-                    <p className={`text-sm font-Mont text-left ${status === 'Pending' && 'text-[#FFC600]'} ${status === 'success' && 'text-[#10B981]'} ${status === 'Cancelled' && 'text-[#F43F5E]'} `}>{status}</p>
+                <div className={`rounded-lg h-8 flex justify-center items-center ${state?.assignee_status === 'Pending' && 'w-[78px]  bg-[#FFC60029]'} ${state?.assignee_status === 'accepted' && ' w-[99px] bg-[#ECFDF5]'} ${state?.assignee_status === 'Cancelled' && 'w-[92px] bg-[#FFF1F2]'} `}>
+                    <p className={`text-sm font-Mont text-left ${state?.assignee_status === 'Pending' && 'text-[#FFC600]'} ${state?.assignee_status === 'accepted' && 'text-[#10B981]'} ${state?.assignee_status === 'Cancelled' && 'text-[#F43F5E]'} `}>
+                        {state?.assignee_status === "accepted" ? "Accepted" : state?.assignee_status === "Pending" ? "Pending" : "Rejected"}
+                    </p>
                 </div>
                 <button 
                     type='button'
-                    className='w-[159px] h-[38px] bg-[#000] text-center text-[#fff] rounded'
+                    className={`${state?.assignee_status === "accepted" ? "hidden" : "w-[159px] h-[38px] bg-[#000] text-center text-[#fff] rounded"}`}
                     onClick={() => setOpenAssignOrder(true)}
                 >
                     Assign Order
@@ -79,15 +81,15 @@ const OrderDetails = () => {
         {activeTab === "Invoice" && <Invoices />}
 
         <ModalPop isOpen={openAssignOrder}>
-            <AssignOrder handleClose={() => setOpenAssignOrder(false)}/>
+            <AssignOrder handleClose={() => setOpenAssignOrder(false)} state={state} />
         </ModalPop>
 
         <ModalPop isOpen={openOrderComplete}>
-            <OrderComplete handleClose={() => setOpenOrderComplete(false)}/>
+            <OrderComplete handleClose={() => setOpenOrderComplete(false)} state={state} />
         </ModalPop>
 
         <ModalPop isOpen={openDeliveredOrder}>
-            <DeliveredOrder handleClose={() => setOpenDeliveredOrder(false)}/>
+            <DeliveredOrder handleClose={() => setOpenDeliveredOrder(false)} state={state}/>
         </ModalPop>
 
     </div>
