@@ -45,7 +45,7 @@ const OrderDetails = () => {
                 </div>
                 <button 
                     type='button'
-                    className={`${state?.assignee_status === "accepted" ? "hidden" : "w-[159px] h-[38px] bg-[#000] text-center text-[#fff] rounded"}`}
+                    className={`${state?.assignee_status === "accepted" ?  "hidden"  :  "w-[159px] h-[38px] bg-[#000] text-center text-[#fff] rounded" }`}
                     onClick={() => setOpenAssignOrder(true)}
                 >
                     Assign Order
