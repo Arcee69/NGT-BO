@@ -11,6 +11,9 @@ export const appUrls = {
 
    //PRODUCTS ENDPOINT
    PRODUCTS_URL: "/product",
+   UPLOAD_IMAGE_URL: "/product",
+   UPLOAD_IMAGE_URL: "/product",
+   UPLOAD_IMAGE_URL: "/product",
 
    //CATEGORY ENDPOINT
    GET_PRODUCTS_CATEGORY_URL: "/category",

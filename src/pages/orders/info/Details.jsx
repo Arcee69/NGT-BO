@@ -212,7 +212,7 @@ const Details = ({ state }) => {
           </div>
         </div>
 
-        <div className='bg-[#fff] w-[347px] h-[626px] p-6 rounded'>
+        <div className='bg-[#fff] w-[347px] hidden h-[626px] p-6 rounded'>
           <p className='font-Mont font-bold text-base '>Delivery Process</p>
           <div className='pt-6 flex flex-col gap-[7px]'>
             {data?.map((d, index) => (

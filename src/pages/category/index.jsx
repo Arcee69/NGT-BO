@@ -4,33 +4,33 @@ import { FaPlus } from "react-icons/fa6";
 
 import { api } from '../../services/api';
 import { appUrls } from '../../services/urls';
-import AllProducts from './components/AllProducts';
+import AllCategories from './components/AllCategories';
 import ModalPop from '../../components/modalPop';
-import AddProduct from './components/AddProduct';
-import EditProduct from './components/EditProduct';
+import AddCategory from './components/AddCategory';
+import EditCategory from './components/EditCategory';
 
 
-const Products = () => {
+const Category = () => {
     const [loading, setLoading] = useState(false)
-    const [addProductloading, setAddProductLoading] = useState(false)
-    const [editProductLoading, setEditProductLoading] = useState(false)
-    const [allProducts, setAllProducts] = useState([])
+    const [addCategoryLoading, setAddCategoryLoading] = useState(false)
+    const [editCategoryLoading, setEditCategoryLoading] = useState(false)
+    const [allCategory, setAllCategory] = useState([])
     const [searchTerm, setSearchTerm] = useState("")
     const [activeTab, setActiveTab] = useState("All")
-    const [openAddProduct, setOpenAddProduct] = useState(false)
-    const [openEditProduct, setOpenEditProduct] = useState(false)
-    const [editData, setEditData] = useState([]) 
+    const [openAddCategory, setOpenAddCategory] = useState(false)
+    const [openEditCategory, setOpenEditCategory] = useState(false)
+    const [editData, setEditData] = useState([])
    
 
     const search = searchTerm ?  `/search/${searchTerm}` : ""; 
 
-    const getAllProducts = async () => {
+    const getAllCategory = async () => {
         setLoading(true)
-        await api.get(`${appUrls?.PRODUCTS_URL}${search}`)
+        await api.get(`${appUrls?.GET_PRODUCTS_CATEGORY_URL}${search}`)
         .then((res) => {
           console.log(res, "asap")
           setLoading(false)
-          setAllProducts(res?.data?.data?.products)
+          setAllCategory(res?.data?.data?.categories)
         })
         .catch((err) => {
           setLoading(false)
@@ -38,20 +38,20 @@ const Products = () => {
         })
       };
     
-      console.log(allProducts, "allProducts")
+      console.log(allCategory, "allCategory")
     
       useEffect(() => {
-        getAllProducts()
-      }, [searchTerm, addProductloading, editProductLoading])
+        getAllCategory()
+      }, [searchTerm, addCategoryLoading, editCategoryLoading])
 
       const handleText = (e) => setSearchTerm(e.target.value)
 
   return (
     <div className='p-8'>
         <div className='flex items-center justify-between'>
-            <p className='text-[24px] text-[#23272E] font-bold'>Product Management</p>
-            <div className='bg-[#8CAD07] cursor-pointer flex items-center justify-between w-[169px] h-[38px] p-2 rounded' onClick={() => setOpenAddProduct(true)}>
-                <p className='text-[#fff] font-Mont font-medium'>Add New Products</p>
+            <p className='text-[24px] text-[#23272E] font-bold'>Category Management</p>
+            <div className='bg-[#8CAD07] cursor-pointer flex items-center justify-center w-[189px] h-[38px] p-2 rounded' onClick={() => setOpenAddCategory(true)}>
+                <p className='text-[#fff] font-Mont font-medium'>Add New Category</p>
             </div>
         </div>
         <div className='mt-[33px] '>
@@ -68,11 +68,11 @@ const Products = () => {
                     <div className='w-[354px] h-[197px] rounded-lg p-4 flex items-center bg-[#fff]'>
                     <div className='flex flex-col gap-[29px]'>
                         <div className='flex flex-col gap-1'>
-                            <p className='font-Hat font-semibold text-[#23272E] text-[17px]'>Total Products</p>
+                            <p className='font-Hat font-semibold text-[#23272E] text-[17px]'>Total Category</p>
                             <p className='font-Hat text-[#8B909A] text-[13px]'>Last 7 days</p>
                         </div>
                         <div className='flex flex-col gap-1'>
-                            <p className='text-[#23272E] font-Hat font-bold text-[31px]'>{allProducts?.length}</p>
+                            <p className='text-[#23272E] font-Hat font-bold text-[31px]'>{allCategory?.length}</p>
                             <p>Last 7 days</p>
                         </div>
                     </div>
@@ -90,27 +90,28 @@ const Products = () => {
         </div>
         <hr />
         {activeTab === "All" && 
-            <AllProducts 
-                allProducts={allProducts} 
+            <AllCategories 
+                allCategory={allCategory} 
                 loading={loading} 
-                handleText={(e) => handleText(e)}
+                handleText={(e) => handleText(e)} 
+                setOpenEditCategory={setOpenEditCategory}
                 setEditData={setEditData}
-                setOpenEditProduct={setOpenEditProduct}
             />
         }
-        <ModalPop isOpen={openAddProduct}>
-            <AddProduct 
-                handleClose={() => setOpenAddProduct(false)} 
-                setAddProductLoading={() => setAddProductLoading()}
-                addProductloading={addProductloading}
+        <ModalPop isOpen={openAddCategory}>
+            <AddCategory 
+                handleClose={() => setOpenAddCategory(false)} 
+                setAddCategoryLoading={() => setAddCategoryLoading()}
+                addCategoryLoading={addCategoryLoading}
+                getAllCategory={getAllCategory}
             />
         </ModalPop>
-      
-        <ModalPop isOpen={openEditProduct}>
-            <EditProduct 
-                handleClose={() => setOpenEditProduct(false)} 
-                setEditProductLoading={setEditProductLoading}
-                editProductLoading={editProductLoading}
+        <ModalPop isOpen={openEditCategory}>
+            <EditCategory 
+                handleClose={() => setOpenEditCategory(false)} 
+                setEditCategoryLoading={() => setEditCategoryLoading()}
+                editCategoryLoading={editCategoryLoading}
+                getAllCategory={getAllCategory}
                 editData={editData}
             />
         </ModalPop>
@@ -118,4 +119,4 @@ const Products = () => {
   )
 }
 
-export default Products
+export default Category

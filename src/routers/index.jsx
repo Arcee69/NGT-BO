@@ -10,6 +10,7 @@ import CompletedOrderDetails from '../pages/orders/completed'
 import { AuthProtectRoutes, ProtectRoutes } from './protectRoutes'
 import Login from '../pages/auth/login'
 import Products from '../pages/products'
+import Category from '../pages/category'
 
 
 const Routers = () => {
@@ -43,6 +44,7 @@ const Routers = () => {
             <Route element={<ProtectRoutes />}>
                 <Route path='/dashboard' element={<Dashboard />} />
                 <Route path='/products' element={<Products />} />
+                <Route path='/category' element={<Category />} />
                 <Route path='/customers' element={<Customers />} />
                 <Route path='/customers/details' element={<CustomersDetails />} />
                 <Route path='/orders' element={<Orders />} />
