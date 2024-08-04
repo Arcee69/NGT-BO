@@ -8,19 +8,22 @@ import AllCategories from './components/AllCategories';
 import ModalPop from '../../components/modalPop';
 import AddCategory from './components/AddCategory';
 import EditCategory from './components/EditCategory';
+import DeleteCategory from './components/DeleteCategory';
 
 
 const Category = () => {
     const [loading, setLoading] = useState(false)
     const [addCategoryLoading, setAddCategoryLoading] = useState(false)
     const [editCategoryLoading, setEditCategoryLoading] = useState(false)
+    const [deleteCategoryLoading, setDeleteCategoryLoading] = useState(false)
     const [allCategory, setAllCategory] = useState([])
     const [searchTerm, setSearchTerm] = useState("")
     const [activeTab, setActiveTab] = useState("All")
     const [openAddCategory, setOpenAddCategory] = useState(false)
     const [openEditCategory, setOpenEditCategory] = useState(false)
     const [editData, setEditData] = useState([])
-   
+    const [deleteData, setDeleteData] = useState([])
+    const [openDeleteCategory, setOpenDeleteCategory] = useState(false)
 
     const search = searchTerm ?  `/search/${searchTerm}` : ""; 
 
@@ -42,7 +45,7 @@ const Category = () => {
     
       useEffect(() => {
         getAllCategory()
-      }, [searchTerm, addCategoryLoading, editCategoryLoading])
+      }, [searchTerm, addCategoryLoading, editCategoryLoading, deleteCategoryLoading ])
 
       const handleText = (e) => setSearchTerm(e.target.value)
 
@@ -73,7 +76,7 @@ const Category = () => {
                         </div>
                         <div className='flex flex-col gap-1'>
                             <p className='text-[#23272E] font-Hat font-bold text-[31px]'>{allCategory?.length}</p>
-                            <p>Last 7 days</p>
+                            {/* <p>Last 7 days</p> */}
                         </div>
                     </div>
                     </div>
@@ -95,7 +98,9 @@ const Category = () => {
                 loading={loading} 
                 handleText={(e) => handleText(e)} 
                 setOpenEditCategory={setOpenEditCategory}
+                setOpenDeleteCategory={setOpenDeleteCategory}
                 setEditData={setEditData}
+                setDeleteData={setDeleteData}
             />
         }
         <ModalPop isOpen={openAddCategory}>
@@ -113,6 +118,15 @@ const Category = () => {
                 editCategoryLoading={editCategoryLoading}
                 getAllCategory={getAllCategory}
                 editData={editData}
+            />
+        </ModalPop>
+        <ModalPop isOpen={openDeleteCategory}>
+            <DeleteCategory 
+                handleClose={() => setOpenDeleteCategory(false)} 
+                deleteData={deleteData}
+                deleteCategoryLoading={deleteCategoryLoading}
+                setDeleteCategoryLoading={setDeleteCategoryLoading}
+                getAllCategory={getAllCategory}
             />
         </ModalPop>
     </div>

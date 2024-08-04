@@ -10,7 +10,7 @@ import { appUrls } from '../../../services/urls'
 import Empty from "../../../assets/png/empty.png"
 import EditCategory from './EditCategory';
 
-const allCategories = ({ loading, allCategory, handleText, setOpenEditCategory, setEditData }) => {  
+const allCategories = ({ loading, allCategory, handleText, setOpenEditCategory, setEditData, setOpenDeleteCategory, setDeleteData }) => {  
     const [page, setPage] = useState(1);
     const [perPage, setPerPage] = useState(10)
     const [itemOffset, setItemOffset] = useState(0);
@@ -94,7 +94,8 @@ const allCategories = ({ loading, allCategory, handleText, setOpenEditCategory, 
                                             style={{boxShadow: '0px 13px 40px 0px rgba(0, 0, 0, 0.15)'}}
                                             className="cursor-pointer py-2 px-4 w-[192px] rounded-lg z-10 flex flex-col  absolute bg-white border border-grey-100 right-10"
                                         >
-                                        <p onClick={() => {setOpenEditCategory(true); setEditData(data)}} className='w-full p-2 bg-white hover:bg-[#ccc] hover:rounded-lg text-start text-[15px]'>Edit</p>
+                                            <p onClick={() => {setOpenEditCategory(true); setEditData(data)}} className='w-full p-2 bg-white hover:bg-[#ccc] hover:rounded-lg text-start text-[15px]'>Edit</p>
+                                            <p onClick={() => {setOpenDeleteCategory(true); setDeleteData(data)}} className='w-full p-2 bg-white hover:bg-[#ccc] hover:rounded-lg text-start text-[15px]'>Delete</p>
                                         </Popover.Button>
                                     </Popover.Panel>
                                 </Popover>

@@ -161,7 +161,7 @@ const Customers = () => {
                                 </div>
                                 <div className='flex flex-col gap-1'>
                                     <p className='text-[#23272E] font-Hat font-bold text-[31px]'>{users?.length}</p>
-                                    <p>Last 7 days</p>
+                                    {/* <p>Last 7 days</p> */}
                                 </div>
                             </div>
                             {/* <ResponsiveContainer>
@@ -222,7 +222,7 @@ const Customers = () => {
                                 </div>
                                 <div className='flex flex-col gap-1'>
                                     <p className='text-[#23272E] font-Hat font-bold text-[31px]'>{allSaloonUsers?.length}</p>
-                                    <p>Last 7 days</p>
+                                    {/* <p>Last 7 days</p> */}
                                 </div>
                             </div>
                             {/* <ResponsiveContainer>
@@ -255,7 +255,7 @@ const Customers = () => {
                                 </div>
                                 <div className='flex flex-col gap-1'>
                                     <p className='text-[#23272E] font-Hat font-bold text-[31px]'>{allRetailUsers?.length}</p>
-                                    <p>Last 7 days</p>
+                                    {/* <p>Last 7 days</p> */}
                                 </div>
                             </div>
                             {/* <ResponsiveContainer>

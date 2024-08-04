@@ -101,7 +101,7 @@ const AddImages = ({ handleClose, productData }) => {
 };
 
   return (
-    <div className='w-[600px] h-[700px] overflow-y-scroll mt-[20px] rounded-lg bg-[#fff] flex flex-col pt-[40px] '>
+    <div className='w-[600px] h-[500px] overflow-y-scroll mt-[20px] rounded-lg bg-[#fff] flex flex-col pt-[40px] '>
         <div className='flex w-full'>
             <Formik
                 initialValues={{

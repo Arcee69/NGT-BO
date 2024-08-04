@@ -11,6 +11,7 @@ import { AuthProtectRoutes, ProtectRoutes } from './protectRoutes'
 import Login from '../pages/auth/login'
 import Products from '../pages/products'
 import Category from '../pages/category'
+import Transactions from '../pages/transactions'
 
 
 const Routers = () => {
@@ -46,6 +47,7 @@ const Routers = () => {
                 <Route path='/products' element={<Products />} />
                 <Route path='/category' element={<Category />} />
                 <Route path='/customers' element={<Customers />} />
+                <Route path='/transactions' element={<Transactions />} />
                 <Route path='/customers/details' element={<CustomersDetails />} />
                 <Route path='/orders' element={<Orders />} />
                 <Route path='/orders/details' element={<OrderDetails />} />

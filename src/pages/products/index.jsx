@@ -8,18 +8,22 @@ import AllProducts from './components/AllProducts';
 import ModalPop from '../../components/modalPop';
 import AddProduct from './components/AddProduct';
 import EditProduct from './components/EditProduct';
+import DeleteProduct from './components/DeleteProduct';
 
 
 const Products = () => {
     const [loading, setLoading] = useState(false)
     const [addProductloading, setAddProductLoading] = useState(false)
     const [editProductLoading, setEditProductLoading] = useState(false)
+    const [deleteProductLoading, setDeleteProductLoading] = useState(false)
     const [allProducts, setAllProducts] = useState([])
     const [searchTerm, setSearchTerm] = useState("")
     const [activeTab, setActiveTab] = useState("All")
     const [openAddProduct, setOpenAddProduct] = useState(false)
     const [openEditProduct, setOpenEditProduct] = useState(false)
+    const [openDeleteProduct, setOpenDeleteProduct] = useState(false)
     const [editData, setEditData] = useState([]) 
+    const [deleteData, setDeleteData] = useState([]) 
    
 
     const search = searchTerm ?  `/search/${searchTerm}` : ""; 
@@ -42,7 +46,7 @@ const Products = () => {
     
       useEffect(() => {
         getAllProducts()
-      }, [searchTerm, addProductloading, editProductLoading])
+      }, [searchTerm, addProductloading, editProductLoading, deleteProductLoading])
 
       const handleText = (e) => setSearchTerm(e.target.value)
 
@@ -73,7 +77,7 @@ const Products = () => {
                         </div>
                         <div className='flex flex-col gap-1'>
                             <p className='text-[#23272E] font-Hat font-bold text-[31px]'>{allProducts?.length}</p>
-                            <p>Last 7 days</p>
+                            {/* <p>Last 7 days</p> */}
                         </div>
                     </div>
                     </div>
@@ -95,7 +99,9 @@ const Products = () => {
                 loading={loading} 
                 handleText={(e) => handleText(e)}
                 setEditData={setEditData}
+                setDeleteData={setDeleteData}
                 setOpenEditProduct={setOpenEditProduct}
+                setOpenDeleteProduct={setOpenDeleteProduct}
             />
         }
         <ModalPop isOpen={openAddProduct}>
@@ -112,6 +118,15 @@ const Products = () => {
                 setEditProductLoading={setEditProductLoading}
                 editProductLoading={editProductLoading}
                 editData={editData}
+            />
+        </ModalPop>
+
+        <ModalPop isOpen={openDeleteProduct}>
+            <DeleteProduct 
+                handleClose={() => setOpenDeleteProduct(false)} 
+                setDeleteProductLoading={setDeleteProductLoading}
+                deleteProductLoading={deleteProductLoading}
+                deleteData={deleteData}
             />
         </ModalPop>
     </div>
