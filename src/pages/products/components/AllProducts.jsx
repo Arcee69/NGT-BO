@@ -153,7 +153,7 @@ const AllProducts = ({ loading, allProducts, handleText, setEditData, setOpenEdi
                 productData={productData}
             />
         </ModalPop>
-  </div>
+    </div>
   )
 }
 
