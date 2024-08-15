@@ -118,7 +118,7 @@ const Pending = ({ allPendingOrders, loading }) => {
           />
           <CiSearch className='w-[18px] h-[18px] text-[#8B909A]'/>
         </div>
-        <div className='w-[200px] h-[40px] bg-[#fff] p-2 flex items-center justify-between rounded'>
+        <div className='w-[200px] h-[40px] bg-[#fff] p-2 flex hidden items-center justify-between rounded'>
           <p className='text-[#8B909A] font-Hat text-[15px]'>Filter by date range</p>
           <IoIosArrowDown className='w-4 h-4 text-[#8B909A]'/>
         </div>
