@@ -315,7 +315,7 @@ const Dashboard = () => {
             loadingTransactionData ? (
             <Skeleton variant='rectangular' width="350px" height="402px"  style={{ backgroundColor: 'rgba(0,0,0, 0.06)', borderRadius: "8px"}} />
             ) : (
-            <div className='w-[540px] h-[402px] bg-[#fff] rounded-lg flex p-6 flex-col'>
+            <div className='w-[540px] h-[402px] bg-[#fff] rounded-lg  flex p-6 flex-col'>
                 <div className='flex items-center justify-between'>
                 <p className='font-Hat text-[#3F434A] font-medium text-[20px]'>Transactions</p>
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="4" viewBox="0 0 20 4" fill="none">
@@ -324,8 +324,8 @@ const Dashboard = () => {
               </div>
               <div className='flex flex-col gap-[22px] mt-[35px]'>
                 {
-                  transactionData?.length > 0 ? transactionData.map((data, index) => (
-                    <div key={index} className='flex items-center justify-between'>
+                  transactionData?.length > 0 ? transactionData?.slice(0, 5).map((data, index) => (
+                    <div key={index} className='flex items-center  justify-between'>
                         <div className='flex flex-col'>
                           <p className='font-Hat text-sm text-[#3F434A]'>{data?.user?.full_name}</p>
                           <p className='text-[11px] font-Hat text-[#8A9099]'>{`${new Date(data?.created_at).toLocaleTimeString()} - ${new Date(data?.created_at).toDateString().slice(4)}`}</p>

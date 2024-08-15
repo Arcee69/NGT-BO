@@ -187,7 +187,7 @@ const Salon = ({ allSaloonUsers, loading }) => {
               </th>
             </tr>
 
-            {allSaloonUsers?.length > 0 ? allSaloonUsers?.map((data, index) => (
+            {currentData?.length > 0 ? currentData?.map((data, index) => (
                 <tr key={index} className='bg-white h-[56px] border-t cursor-pointer border-grey-100' onClick={() => navigate('/customers/details', { state: data }, window.scroll(0, 0))}>
                     <td className='h-[70px] px-4'>
                         <p className='text-sm font-semibold font-Mont text-dark-100 text-center'>{`#${data?.id?.substring(0, 8)}`}</p> 

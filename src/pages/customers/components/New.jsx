@@ -123,7 +123,7 @@ const New = () => {
     //Get Current data
     const endOffset = itemOffset + perPage;
     console.log(`Loading items from ${itemOffset} to ${endOffset}`);
-    const currentData = allCustomersData.slice(itemOffset, endOffset);
+    const currentData = allCustomersData?.slice(itemOffset, endOffset);
     const pageCount = Math.ceil(allCustomersData.length / perPage);
 
 
@@ -180,7 +180,7 @@ const New = () => {
           </th>
         </tr>
 
-        {allCustomersData?.length > 0 ? allCustomersData?.map((data, index) => (
+        {currentData?.length > 0 ? currentData?.map((data, index) => (
             <tr key={index} className='bg-white h-[56px] border-t cursor-pointer border-grey-100' onClick={() => navigate('/customers/details', { state: data }, window.scroll(0, 0))}>
                 <td className='h-[70px] px-4'>
                     <p className='text-sm font-semibold font-Mont text-dark-100 text-center'>{data?.id}</p> 

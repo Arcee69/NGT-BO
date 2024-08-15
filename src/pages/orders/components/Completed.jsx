@@ -147,7 +147,7 @@ const Completed = ({ allCompletedOrders, loading }) => {
                   </th>
                 </tr>
 
-                {allCompletedOrders?.length > 0 ? allCompletedOrders?.map((data, index) => (
+                {currentData?.length > 0 ? currentData?.map((data, index) => (
                     <tr key={index} className='bg-white h-[56px] border-t cursor-pointer border-grey-100' onClick={() => navigate("/orders/completed", {state: data})}>
                         <td className='h-[70px] px-4'>
                             <p className='text-sm font-semibold font-Mont text-dark-100 text-left'>{`#${data?.id?.substring(0, 8)}`}</p> 
