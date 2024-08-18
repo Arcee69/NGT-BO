@@ -2,15 +2,15 @@ import React, { useState } from 'react'
 import { CgSpinner } from 'react-icons/cg';
 import { Form, Formik} from "formik"
 import { toast } from 'react-toastify';
+import axios from 'axios';
 
 import Upload from "../../../assets/png/upload.png"
 import { api } from '../../../services/api';
 import { appUrls } from '../../../services/urls';
-import axios from 'axios';
+import CloseIcon from "../../../assets/svg/closeIcon.svg"
 
 
-const AddImages = ({ handleClose, productData }) => {
-    const [loading, setLoading] = useState(false)
+const AddImages = ({ handleClose, productData, addImageLoading, setAddImageLoading }) => {
     const [pic, setPic] = useState(null)
     const [picB, setPicB] = useState(null)
     const [picC, setPicC] = useState(null)
@@ -38,7 +38,7 @@ const AddImages = ({ handleClose, productData }) => {
 
     
     const submitForm = async (values, action) => {
-        setLoading(true)
+        setAddImageLoading(true)
     let formData = new FormData();
     let formDataB = new FormData();
     let formDataC = new FormData();
@@ -81,22 +81,22 @@ const AddImages = ({ handleClose, productData }) => {
             }
         });
         console.log(res, "pop");
-        setLoading(false)
+        setAddImageLoading(false)
         toast(`${res?.data?.message}`, { 
             position: "top-right",
             autoClose: 3500,
             closeOnClick: true,
         });
         handleClose();
-        window.location.reload()
     } catch (err) {
         console.error(err, "err");
-        setLoading(false)
-        toast(`${err?.data?.message}`, { 
-            position: "top-right",
-            autoClose: 3500,
-            closeOnClick: true,
-        });
+        setAddImageLoading(false)
+        handleClose();
+        // toast(`${err?.data?.message}`, { 
+        //     position: "top-right",
+        //     autoClose: 3500,
+        //     closeOnClick: true,
+        // });
     }
 };
 
@@ -135,13 +135,12 @@ const AddImages = ({ handleClose, productData }) => {
                             <div className='p-[9px] w-[300px] cursor-pointer flex justify-center gap-[16px] '>
                                 {  
                                     pic?.name ? 
-                                        <div className='flex flex-col gap-1'>
-                                            <div className='flex items-center justify-between'>
-                                                <p className='text-[15px] font-hanken text-[#858585]'>{pic?.name}</p>
-                                                <p className='text-[#000] text-[11px]'>Completed</p>
-                                            </div>
-                                            <div className='w-[266px] h-[5px] bg-[#51E38B] rounded-lg'></div>
-                                        </div> 
+                                        <div className='flex flex-col gap-1 relative'>
+                                            <img alt="upload" width={"200px"} height={"100px"} className='' src={URL.createObjectURL(pic)} />
+                                            <button className="flex items-center absolute -top-5 -right-3" onClick={() => setPic(null)}> 
+                                                <img src={CloseIcon} alt='close' />
+                                            </button>
+                                        </div>
                                         :
                                         <div className='flex flex-col items-center gap-[16px]'>
                                             <img src={Upload} alt='upload' className='w-[56px] h-[56px' />
@@ -175,12 +174,11 @@ const AddImages = ({ handleClose, productData }) => {
                             <div className='p-[9px] w-[300px] cursor-pointer flex justify-center gap-[16px] '>
                                 {  
                                     picB?.name ? 
-                                        <div className='flex flex-col gap-1'>
-                                            <div className='flex items-center justify-between'>
-                                                <p className='text-[15px] font-hanken text-[#858585]'>{picB?.name}</p>
-                                                <p className='text-[#000] text-[11px]'>Completed</p>
-                                            </div>
-                                            <div className='w-[266px] h-[5px] bg-[#51E38B] rounded-lg'></div>
+                                        <div className='flex flex-col gap-1 relative'>
+                                            <img alt="upload" width={"200px"} height={"100px"} className='' src={URL.createObjectURL(picB)} />
+                                            <button className="flex items-center absolute -top-5 -right-3" onClick={() => setPicB(null)}> 
+                                                <img src={CloseIcon} alt='close' />
+                                            </button>
                                         </div> 
                                         :
                                         <div className='flex flex-col items-center gap-[16px]'>
@@ -215,12 +213,11 @@ const AddImages = ({ handleClose, productData }) => {
                             <div className='p-[9px] w-[300px] cursor-pointer flex justify-center gap-[16px] '>
                                 {  
                                     picC?.name ? 
-                                        <div className='flex flex-col gap-1'>
-                                            <div className='flex items-center justify-between'>
-                                                <p className='text-[15px] font-hanken text-[#858585]'>{picC?.name}</p>
-                                                <p className='text-[#000] text-[11px]'>Completed</p>
-                                            </div>
-                                            <div className='w-[266px] h-[5px] bg-[#51E38B] rounded-lg'></div>
+                                        <div className='flex flex-col gap-1 relative'>
+                                            <img alt="upload" width={"200px"} height={"100px"} className='' src={URL.createObjectURL(picC)} />
+                                            <button className="flex items-center absolute -top-5 -right-3" onClick={() => setPicC(null)}> 
+                                                <img src={CloseIcon} alt='close' />
+                                            </button>
                                         </div> 
                                         :
                                         <div className='flex flex-col items-center gap-[16px]'>
@@ -263,7 +260,7 @@ const AddImages = ({ handleClose, productData }) => {
                                 className="w-[220px]  flex items-center  rounded-lg justify-center  h-[49px] bg-[#8CAD07] text-base  text-center"
                                 type="submit"
                             >
-                                <p className='text-[#fff] text-base  font-merri text-center  font-medium'>{loading ? <CgSpinner className=" animate-spin text-lg  " /> : 'Upload'}</p>
+                                <p className='text-[#fff] text-base  font-merri text-center  font-medium'>{addImageLoading ? <CgSpinner className=" animate-spin text-lg  " /> : 'Upload'}</p>
                             </button>
 
                         </div>

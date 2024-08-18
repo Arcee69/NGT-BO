@@ -60,8 +60,9 @@ const EditCategory = ({ handleClose, editCategoryLoading, getAllCategory, setEdi
         <div className='mt-[15px]'>
             <Formik
                 initialValues={{
-                    categoryName: "",
+                    categoryName: editData?.name || "",
                 }}
+                enableReinitialize
                 validationSchema={formValidationSchema}
                 onSubmit={(values, action) => {
                 window.scrollTo(0, 0);
@@ -87,7 +88,7 @@ const EditCategory = ({ handleClose, editCategoryLoading, getAllCategory, setEdi
                             <label htmlFor='Category Name' className='font-Hat text-[#8A9099]'>Category Name</label>
                             <input 
                                 name="categoryName"
-                                placeholder={`${editData?.name}`}
+                                placeholder={``}
                                 type='text'
                                 value={values?.categoryName}
                                 onChange={handleChange}

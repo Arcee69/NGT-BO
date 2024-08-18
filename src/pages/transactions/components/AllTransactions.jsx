@@ -14,7 +14,9 @@ const AllTransactions = ({
     const [perPage, setPerPage] = useState(10)
     const [itemOffset, setItemOffset] = useState(0);
 
-
+ 
+    const formatter = new Intl.NumberFormat('en-US');
+    
     //Get Current data
     const endOffset = itemOffset + perPage;
     console.log(`Loading items from ${itemOffset} to ${endOffset}`);
@@ -94,7 +96,7 @@ const AllTransactions = ({
                                 <p className='text-sm font-Mont text-dark-100 text-left'>{data?.reference_code}</p>
                             </td>
                             <td className='h-[70px] px-4'>
-                                <p className='text-sm font-Mont text-dark-100 text-left'>{`₦${data?.total_amount}`}</p>
+                                <p className='text-sm font-Mont text-dark-100 text-left'>{`₦${formatter.format(data?.total_amount)}`}</p>
                             </td>
                             <td className='h-[70px] px-4'>
                                 <p className={`${data?.status === "Success" ? "text-[#10B981]" :  "text-dark-100"} text-sm font-Mont  text-left `}>{data?.status}</p>

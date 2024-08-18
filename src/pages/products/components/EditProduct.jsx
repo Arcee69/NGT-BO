@@ -80,40 +80,43 @@ const EditProduct = ({editData, setEditProductLoading, handleClose, editProductL
             formDataC.append("image", picC);
         }
     
-    
-        try {
-            const res = await axios.post("https://ngt.smhptech.com/api/product/upload-image-1", formData, {
-                headers : {
-                    "Authorization": `Bearer ${token}`,
-                    "Content-Type": "multipart/form-data"
-                }
-            });
-            const resB = await axios.post("https://ngt.smhptech.com/api/product/upload-image-2", formDataB, {
-                headers : {
-                    "Authorization": `Bearer ${token}`,
-                    "Content-Type": "multipart/form-data"
-                }
-            });
-            const resC = await axios.post("https://ngt.smhptech.com/api/product/upload-image-3", formDataC, {
-                headers : {
-                    "Authorization": `Bearer ${token}`,
-                    "Content-Type": "multipart/form-data"
-                }
-            });
-            toast(`${res?.data?.message}`, { 
-                position: "top-right",
-                autoClose: 3500,
-                closeOnClick: true,
-            });
-            handleClose();
-      
-        } catch (err) {
-            toast(`${err?.data?.message}`, { 
-                position: "top-right",
-                autoClose: 3500,
-                closeOnClick: true,
-            });
+        if(pic || picB || picC) {
+            try {
+                const res = await axios.post("https://ngt.smhptech.com/api/product/upload-image-1", formData, {
+                    headers : {
+                        "Authorization": `Bearer ${token}`,
+                        "Content-Type": "multipart/form-data"
+                    }
+                });
+                const resB = await axios.post("https://ngt.smhptech.com/api/product/upload-image-2", formDataB, {
+                    headers : {
+                        "Authorization": `Bearer ${token}`,
+                        "Content-Type": "multipart/form-data"
+                    }
+                });
+                const resC = await axios.post("https://ngt.smhptech.com/api/product/upload-image-3", formDataC, {
+                    headers : {
+                        "Authorization": `Bearer ${token}`,
+                        "Content-Type": "multipart/form-data"
+                    }
+                });
+                toast(`${res?.data?.message}`, { 
+                    position: "top-right",
+                    autoClose: 3500,
+                    closeOnClick: true,
+                });
+                handleClose();
+          
+            } catch (err) {
+                console(err, "image")
+                // toast(`${err?.data?.message}`, { 
+                //     position: "top-right",
+                //     autoClose: 3500,
+                //     closeOnClick: true,
+                // });
+            }
         }
+    
 
         const data = {
             product_id: editData?.id,
@@ -157,11 +160,12 @@ const EditProduct = ({editData, setEditProductLoading, handleClose, editProductL
         <div className='mt-[15px]'>
             <Formik
                 initialValues={{
-                    productName: "",
-                    description: "",
-                    price: "",
+                    productName: editData?.name || "",
+                    description:  editData?.description || "",
+                    price: editData?.unit_price || "",
                     category: "",
                 }}
+                enableReinitialize
                 // validationSchema={formValidationSchema}
                 onSubmit={(values, action) => {
                 window.scrollTo(0, 0);
@@ -187,7 +191,7 @@ const EditProduct = ({editData, setEditProductLoading, handleClose, editProductL
                             <label htmlFor='Product Name' className='font-Hat text-[#8A9099]'>Product Name</label>
                             <input 
                                 name="productName"
-                                placeholder={`${editData?.name}`}
+                                placeholder=""
                                 type='text'
                                 value={values?.productName}
                                 onChange={handleChange}
@@ -204,7 +208,7 @@ const EditProduct = ({editData, setEditProductLoading, handleClose, editProductL
                             <label htmlFor='Description' className='font-Hat text-[#8A9099]'>Description</label>
                             <textarea 
                                 name="description"
-                                placeholder={`${editData?.description}`}
+                                placeholder={``}
                                 type='text'
                                 value={values?.description}
                                 onChange={handleChange}
@@ -221,7 +225,7 @@ const EditProduct = ({editData, setEditProductLoading, handleClose, editProductL
                             <label htmlFor='Price' className='font-Hat text-[#8A9099]'>Price</label>
                             <input 
                                 name="price"
-                                placeholder={`${editData?.unit_price}`}
+                                placeholder={``}
                                 value={values?.price}
                                 type='number'
                                 onChange={handleChange}
@@ -262,26 +266,30 @@ const EditProduct = ({editData, setEditProductLoading, handleClose, editProductL
                         <div className="w-full flex flex-col gap-[24px]">
                             <p className='text-center text-2xl font-semibold font-Kumbh'>Add Product Images</p>
                             <div className='flex overflow-x-hidden w-full flex-wrap items-center gap-3'>
-                                <div className='flex flex-col bg-transparent rounded-lg items-center w-full border-dashed border-[#D0D5DD] border px-6 py-[28px]  gap-[16px]'>
+                                <div className='flex flex-col bg-transparent rounded-lg items-center w-[90%] mx-auto border-dashed border-[#D0D5DD] border px-6 py-[28px]  gap-[16px]'>
                                     <div className='p-[9px] w-full cursor-pointer flex justify-center gap-[16px] '>
                                         {  
                                             pic?.name ?
-                                            // <div className='flex flex-col gap-1'>
-                                            //     <img alt="upload" width={"200px"} height={"100px"} className='' src={URL.createObjectURL(pic) } />
-                                            // </div>  
-                                                <div className='flex flex-col gap-1'>
-                                                    <div className='flex items-center justify-between'>
-                                                        <p className='text-[15px] font-hanken text-[#858585]'>{pic?.name}</p>
-                                                        <p className='text-[#000] text-[11px]'>Completed</p>
-                                                    </div>
-                                                    <div className='w-[266px] h-[5px] bg-[#51E38B] rounded-lg'></div>
-                                                </div> 
+                                            <div className='flex flex-col gap-1 relative'>
+                                                <img alt="upload" width={"200px"} height={"100px"} className='' src={URL.createObjectURL(pic)} />
+                                                <button className="flex items-center absolute -top-5 -right-3" onClick={() => setPic(null)}> 
+                                                    <img src={CloseIcon} alt='close' />
+                                                </button>
+                                            </div>
+                                         
+                                                // <div className='flex flex-col gap-1'>
+                                                //     <div className='flex items-center justify-between'>
+                                                //         <p className='text-[15px] font-hanken text-[#858585]'>{pic?.name}</p>
+                                                //         <p className='text-[#000] text-[11px]'>Completed</p>
+                                                //     </div>
+                                                //     <div className='w-[266px] h-[5px] bg-[#51E38B] rounded-lg'></div>
+                                                // </div> 
                                                 :
                                                 <div className='flex flex-col items-center gap-[16px]'>
                                                     <img src={Upload} alt='upload' className='w-[56px] h-[56px' />
                                                     <div className='flex flex-col'>
                                                         <p className='text-sm font-semibold font-inter text-[#8CAD07]'>
-                                                            Click to upload image <span className='text-[#475367]'>or drag and drop</span>
+                                                            Click below to upload image 
                                                         </p>
                                                         <p className='text-xs text-center font-medium text-[#98A2B3]'>SVG, PNG or JPG </p>
                                                     </div>
@@ -305,23 +313,22 @@ const EditProduct = ({editData, setEditProductLoading, handleClose, editProductL
                                     </div>
                                 </div>
 
-                                <div className='flex flex-col bg-transparent rounded-lg items-center w-full border-dashed border-[#D0D5DD] border px-6 py-[28px]  gap-[16px]'>
+                                <div className='flex flex-col bg-transparent rounded-lg items-center  w-[90%] mx-auto  border-dashed border-[#D0D5DD] border px-6 py-[28px]  gap-[16px]'>
                                     <div className='p-[9px] w-full cursor-pointer flex justify-center gap-[16px] '>
                                         {  
                                             picB?.name ? 
-                                                <div className='flex flex-col gap-1'>
-                                                    <div className='flex items-center justify-between'>
-                                                        <p className='text-[15px] font-hanken text-[#858585]'>{picB?.name}</p>
-                                                        <p className='text-[#000] text-[11px]'>Completed</p>
-                                                    </div>
-                                                    <div className='w-[266px] h-[5px] bg-[#51E38B] rounded-lg'></div>
-                                                </div> 
+                                            <div className='flex flex-col gap-1 relative'>
+                                                <img alt="upload" width={"200px"} height={"100px"} className='' src={URL.createObjectURL(picB)} />
+                                                <button className="flex items-center absolute -top-5 -right-3" onClick={() => setPicB(null)}> 
+                                                    <img src={CloseIcon} alt='close' />
+                                                </button>
+                                            </div>
                                                 :
                                                 <div className='flex flex-col items-center gap-[16px]'>
                                                     <img src={Upload} alt='upload' className='w-[56px] h-[56px' />
                                                     <div className='flex flex-col'>
                                                         <p className='text-sm font-semibold font-inter text-[#8CAD07]'>
-                                                            Click to upload image <span className='text-[#475367]'>or drag and drop</span>
+                                                            Click below to upload image 
                                                         </p>
                                                         <p className='text-xs text-center font-medium text-[#98A2B3]'>SVG, PNG or JPG </p>
                                                     </div>
@@ -345,23 +352,22 @@ const EditProduct = ({editData, setEditProductLoading, handleClose, editProductL
                                     </div>
                                 </div>
                                 
-                                <div className='flex flex-col bg-transparent rounded-lg items-center w-full border-dashed border-[#D0D5DD] border px-6 py-[28px]  gap-[16px]'>
+                                <div className='flex flex-col bg-transparent rounded-lg items-center w-[90%] mx-auto  border-dashed border-[#D0D5DD] border px-6 py-[28px]  gap-[16px]'>
                                     <div className='p-[9px] w-full cursor-pointer flex justify-center gap-[16px] '>
                                         {  
                                             picC?.name ? 
-                                                <div className='flex flex-col gap-1'>
-                                                    <div className='flex items-center justify-between'>
-                                                        <p className='text-[15px] font-hanken text-[#858585]'>{picC?.name}</p>
-                                                        <p className='text-[#000] text-[11px]'>Completed</p>
-                                                    </div>
-                                                    <div className='w-[266px] h-[5px] bg-[#51E38B] rounded-lg'></div>
+                                                <div className='flex flex-col gap-1 relative'>
+                                                    <img alt="upload" width={"200px"} height={"100px"} className='' src={URL.createObjectURL(picC)} />
+                                                    <button className="flex items-center absolute -top-5 -right-3" onClick={() => setPicC(null)}> 
+                                                        <img src={CloseIcon} alt='close' />
+                                                    </button>
                                                 </div> 
                                                 :
                                                 <div className='flex flex-col items-center gap-[16px]'>
                                                     <img src={Upload} alt='upload' className='w-[56px] h-[56px' />
                                                     <div className='flex flex-col'>
                                                         <p className='text-sm font-semibold font-inter text-[#8CAD07]'>
-                                                            Click to upload image <span className='text-[#475367]'>or drag and drop</span>
+                                                            Click below to upload image 
                                                         </p>
                                                         <p className='text-xs text-center font-medium text-[#98A2B3]'>SVG, PNG or JPG </p>
                                                     </div>

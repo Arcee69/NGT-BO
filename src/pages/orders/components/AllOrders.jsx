@@ -64,6 +64,9 @@ const AllOrders = ({ allOrders, loading }) => {
     const currentData = allOrders.slice(itemOffset, endOffset);
     const pageCount = Math.ceil(allOrders.length / perPage);
 
+    const filteredOrders = currentData?.filter((item) => 
+      item?.id.toLowerCase().includes(text.toLowerCase()) || ""
+    )
 
     //Change Page 
     const handlePageClick = (event) => {
@@ -159,7 +162,7 @@ const AllOrders = ({ allOrders, loading }) => {
                   </th>
                 </tr>
 
-                {currentData?.length > 0 ? currentData?.map((data, index) => (
+                {filteredOrders?.length > 0 ? filteredOrders?.map((data, index) => (
                     <tr key={index} className='bg-white h-[56px] border-t cursor-pointer border-grey-100' onClick={() => navigationCheck(data)}>
                         <td className='h-[70px] px-4'>
                             <p className='text-sm font-semibold font-Mont text-dark-100 text-left'>{`#${data?.id?.substring(0, 8)}`}</p> 

@@ -24,12 +24,11 @@ const Category = () => {
     const [editData, setEditData] = useState([])
     const [deleteData, setDeleteData] = useState([])
     const [openDeleteCategory, setOpenDeleteCategory] = useState(false)
-
-    const search = searchTerm ?  `/search/${searchTerm}` : ""; 
+ 
 
     const getAllCategory = async () => {
         setLoading(true)
-        await api.get(`${appUrls?.GET_PRODUCTS_CATEGORY_URL}${search}`)
+        await api.get(`${appUrls?.GET_PRODUCTS_CATEGORY_URL}`)
         .then((res) => {
           console.log(res, "asap")
           setLoading(false)
@@ -40,6 +39,10 @@ const Category = () => {
           console.log(err, "faro")
         })
       };
+
+      const filteredCategory = allCategory?.filter((item) => 
+        item?.id.toLowerCase().includes(searchTerm.toLowerCase()) || ""
+      )
     
       console.log(allCategory, "allCategory")
     
@@ -72,7 +75,7 @@ const Category = () => {
                     <div className='flex flex-col gap-[29px]'>
                         <div className='flex flex-col gap-1'>
                             <p className='font-Hat font-semibold text-[#23272E] text-[17px]'>Total Category</p>
-                            <p className='font-Hat text-[#8B909A] text-[13px]'>Last 7 days</p>
+                            {/* <p className='font-Hat text-[#8B909A] text-[13px]'>Last 7 days</p> */}
                         </div>
                         <div className='flex flex-col gap-1'>
                             <p className='text-[#23272E] font-Hat font-bold text-[31px]'>{allCategory?.length}</p>
@@ -94,7 +97,7 @@ const Category = () => {
         <hr />
         {activeTab === "All" && 
             <AllCategories 
-                allCategory={allCategory} 
+                allCategory={filteredCategory} 
                 loading={loading} 
                 handleText={(e) => handleText(e)} 
                 setOpenEditCategory={setOpenEditCategory}

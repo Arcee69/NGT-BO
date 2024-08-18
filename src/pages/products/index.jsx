@@ -11,8 +11,10 @@ import EditProduct from './components/EditProduct';
 import DeleteProduct from './components/DeleteProduct';
 
 
+
 const Products = () => {
-    const [loading, setLoading] = useState(false)
+    const [loading, setLoading] = useState(false);
+    const [addImageLoading, setAddImageLoading] = useState(false)
     const [addProductloading, setAddProductLoading] = useState(false)
     const [editProductLoading, setEditProductLoading] = useState(false)
     const [deleteProductLoading, setDeleteProductLoading] = useState(false)
@@ -46,7 +48,7 @@ const Products = () => {
     
       useEffect(() => {
         getAllProducts()
-      }, [searchTerm, addProductloading, editProductLoading, deleteProductLoading])
+      }, [searchTerm, addProductloading, editProductLoading, deleteProductLoading, addImageLoading])
 
       const handleText = (e) => setSearchTerm(e.target.value)
 
@@ -73,11 +75,9 @@ const Products = () => {
                     <div className='flex flex-col gap-[29px]'>
                         <div className='flex flex-col gap-1'>
                             <p className='font-Hat font-semibold text-[#23272E] text-[17px]'>Total Products</p>
-                            <p className='font-Hat text-[#8B909A] text-[13px]'>Last 7 days</p>
                         </div>
                         <div className='flex flex-col gap-1'>
                             <p className='text-[#23272E] font-Hat font-bold text-[31px]'>{allProducts?.length}</p>
-                            {/* <p>Last 7 days</p> */}
                         </div>
                     </div>
                     </div>
@@ -102,8 +102,18 @@ const Products = () => {
                 setDeleteData={setDeleteData}
                 setOpenEditProduct={setOpenEditProduct}
                 setOpenDeleteProduct={setOpenDeleteProduct}
+                addImageLoading={addImageLoading}
+                setAddImageLoading={setAddImageLoading}
             />
         }
+        <ModalPop isOpen={openAddProduct}>
+            <AddProduct 
+                handleClose={() => setOpenAddProduct(false)} 
+                setAddProductLoading={() => setAddProductLoading()}
+                addProductloading={addProductloading}
+            />
+        </ModalPop>
+
         <ModalPop isOpen={openAddProduct}>
             <AddProduct 
                 handleClose={() => setOpenAddProduct(false)} 

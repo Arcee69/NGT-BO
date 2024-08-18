@@ -29,11 +29,19 @@ const Delete = ({ handleClose, deleteData }) => {
         .catch((err) => {
             console.log(err, "err")
             setLoading(false)
-            toast("Error", {
-                position: "top-right",
-                autoClose: 5000,
-                closeOnClick: true,
-            })
+            if(err?.status === 500) {
+                toast(`Internal Server Error`, {
+                    position: "top-right",
+                    autoClose: 5000,
+                    closeOnClick: true,
+                })
+            } else {
+                toast(`${err?.data?.message}`, {
+                    position: "top-right",
+                    autoClose: 5000,
+                    closeOnClick: true,
+                })
+            }
             handleClose()
         })
     }

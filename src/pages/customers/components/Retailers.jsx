@@ -19,106 +19,6 @@ const Retailers = ({ allRetailUsers, loading }) => {
 
   const handleText = (e) => setText(e.target.value)
 
-  // const allCustomersData = [
-  //   {
-  //     id: "#0007366388",
-  //     businessName: "Beauty Emporium",
-  //     address: "123 Main Street",
-  //     phone: "(555) 555-1234",
-  //     email: "info@example.com",
-  //     type: "Salon",
-  //     capacity: 'N/A (Services)'
-  //   },
-  //   {
-  //     id: "#0007366388",
-  //     businessName: "Beauty Emporium",
-  //     address: "123 Main Street",
-  //     phone: "(555) 555-1234",
-  //     email: "info@example.com",
-  //     type: "Salon",
-  //     capacity: 'N/A (Services)'
-  //   },
-  //   {
-  //     id: "#0007366388",
-  //     businessName: "Beauty Emporium",
-  //     address: "123 Main Street",
-  //     phone: "(555) 555-1234",
-  //     email: "info@example.com",
-  //     type: "Salon",
-  //     capacity: 'N/A (Services)',
-  //     status: "Pending"
-  //   },
-  //   {
-  //     id: "#0007366388",
-  //     businessName: "Beauty Emporium",
-  //     address: "123 Main Street",
-  //     phone: "(555) 555-1234",
-  //     email: "info@example.com",
-  //     type: "Salon",
-  //     capacity: 'N/A (Services)',
-  //     status: "Pending"
-  //   },
-  //   {
-  //     id: "#0007366388",
-  //     businessName: "Beauty Emporium",
-  //     address: "123 Main Street",
-  //     phone: "(555) 555-1234",
-  //     email: "info@example.com",
-  //     type: "Salon",
-  //     capacity: 'N/A (Services)',
-  //     status: "Pending"
-  //   },
-  //   {
-  //     id: "#0007366388",
-  //     businessName: "Beauty Emporium",
-  //     address: "123 Main Street",
-  //     phone: "(555) 555-1234",
-  //     email: "info@example.com",
-  //     type: "Salon",
-  //     capacity: 'N/A (Services)',
-  //     status: "Pending"
-  //   },
-  //   {
-  //     id: "#0007366388",
-  //     businessName: "Beauty Emporium",
-  //     address: "123 Main Street",
-  //     phone: "(555) 555-1234",
-  //     email: "info@example.com",
-  //     type: "Salon",
-  //     capacity: 'N/A (Services)',
-  //     status: "Pending"
-  //   },
-  //   {
-  //     id: "#0007366388",
-  //     businessName: "Beauty Emporium",
-  //     address: "123 Main Street",
-  //     phone: "(555) 555-1234",
-  //     email: "info@example.com",
-  //     type: "Salon",
-  //     capacity: 'N/A (Services)',
-  //     status: "Pending"
-  //   },
-  //   {
-  //     id: "#0007366388",
-  //     businessName: "Beauty Emporium",
-  //     address: "123 Main Street",
-  //     phone: "(555) 555-1234",
-  //     email: "info@example.com",
-  //     type: "Salon",
-  //     capacity: 'N/A (Services)',
-  //     status: "Pending"
-  //   },
-  //   {
-  //     id: "#0007366388",
-  //     businessName: "Beauty Emporium",
-  //     address: "123 Main Street",
-  //     phone: "(555) 555-1234",
-  //     email: "info@example.com",
-  //     type: "Salon",
-  //     capacity: 'N/A (Services)',
-  //     status: "Pending"
-  //   },
-  // ]
 
     //Get Current data
     const endOffset = itemOffset + perPage;
@@ -126,6 +26,9 @@ const Retailers = ({ allRetailUsers, loading }) => {
     const currentData = allRetailUsers?.slice(itemOffset, endOffset);
     const pageCount = Math.ceil(allRetailUsers?.length / perPage);
 
+    const filteredCustomers = currentData?.filter((item) => 
+      item?.id.toLowerCase().includes(text.toLowerCase()) || ""
+    )
 
     //Change Page 
     const handlePageClick = (event) => {
@@ -185,7 +88,7 @@ const Retailers = ({ allRetailUsers, loading }) => {
               </th>
             </tr>
 
-            {currentData?.length > 0 ? currentData?.map((data, index) => (
+            {filteredCustomers?.length > 0 ? filteredCustomers?.map((data, index) => (
                 <tr key={index} className='bg-white h-[56px] border-t cursor-pointer border-grey-100' onClick={() => navigate('/customers/details', { state: data }, window.scroll(0, 0))}>
                     <td className='h-[70px] px-4'>
                         <p className='text-sm font-semibold font-Mont text-dark-100 text-center'>{`#${data?.id?.substring(0, 8)}`}</p> 

@@ -11,14 +11,26 @@ import { api } from '../../../services/api'
 import { appUrls } from '../../../services/urls'
 
 import Empty from "../../../assets/png/empty.png"
+import ViewProduct from './ViewProduct';
 
 
-const AllProducts = ({ loading, allProducts, handleText, setEditData, setOpenEditProduct, setDeleteData, setOpenDeleteProduct }) => {  
+const AllProducts = ({ 
+    loading, 
+    allProducts, 
+    handleText, 
+    setEditData, 
+    setOpenEditProduct, 
+    setDeleteData, 
+    setOpenDeleteProduct,
+    addImageLoading, 
+    setAddImageLoading
+}) => {  
     const [page, setPage] = useState(1);
     const [perPage, setPerPage] = useState(10)
     const [itemOffset, setItemOffset] = useState(0);
     const [openAddImages, setOpenAddImages] = useState(false);
     const [productData, setProductData] = useState([])
+    const [openViewProduct, setOpenViewProduct] = useState(false)
 
     //Get Current data
     const endOffset = itemOffset + perPage;
@@ -51,7 +63,7 @@ const AllProducts = ({ loading, allProducts, handleText, setEditData, setOpenEdi
       </div>
     </div>
     {
-       loading ?
+       loading || addImageLoading ?
        <Skeleton  variant="rectangular" width={1080} height={1000} style={{ backgroundColor: 'rgba(0,0,0, 0.06)', marginTop: "20px" }} />
        :
        <>
@@ -77,7 +89,7 @@ const AllProducts = ({ loading, allProducts, handleText, setEditData, setOpenEdi
                 </th>
               </tr>
 
-              {allProducts?.length > 0 ? allProducts?.map((data, index) =>  {
+              {currentData?.length > 0 ? currentData?.map((data, index) =>  {
                 console.log(data, "cat")
                 return (
                     <tr key={index} className='bg-white h-[56px] border-t cursor-pointer border-grey-100' >
@@ -111,6 +123,7 @@ const AllProducts = ({ loading, allProducts, handleText, setEditData, setOpenEdi
                                         className="cursor-pointer py-2 px-4 w-[192px] rounded-lg z-10 flex flex-col  absolute bg-white border border-grey-100 right-10"
                                     >
                                         <p onClick={() => {setOpenAddImages(true); setProductData(data)}} className='w-full p-2 bg-white hover:bg-[#ccc] hover:rounded-lg text-start text-[15px]'>Add Image</p>
+                                        <p onClick={() => {setOpenViewProduct(true); setProductData(data)}} className='w-full p-2 bg-white hover:bg-[#ccc] hover:rounded-lg text-start text-[15px]'>View</p>
                                         <p onClick={() => {setOpenEditProduct(true); setEditData(data)}} className='w-full p-2 bg-white hover:bg-[#ccc] hover:rounded-lg text-start text-[15px]'>Edit</p>
                                         <p onClick={() => {setOpenDeleteProduct(true); setDeleteData(data)}} className='w-full p-2 bg-white hover:bg-[#ccc] hover:rounded-lg text-start text-[15px]'>Delete</p>
                                     </Popover.Button>
@@ -150,6 +163,15 @@ const AllProducts = ({ loading, allProducts, handleText, setEditData, setOpenEdi
         <ModalPop isOpen={openAddImages}>
             <AddImages 
                 handleClose={() => setOpenAddImages(false)} 
+                productData={productData}
+                addImageLoading={addImageLoading}
+                setAddImageLoading={setAddImageLoading}
+            />
+        </ModalPop>
+
+        <ModalPop isOpen={openViewProduct}>
+            <ViewProduct
+                handleClose={() => setOpenViewProduct(false)} 
                 productData={productData}
             />
         </ModalPop>

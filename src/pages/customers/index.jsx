@@ -157,7 +157,7 @@ const Customers = () => {
                             <div className='flex flex-col gap-[29px]'>
                                 <div className='flex flex-col gap-1'>
                                     <p className='font-Hat font-semibold text-[#23272E] text-[17px]'>Total Customers</p>
-                                    <p className='font-Hat text-[#8B909A] text-[13px]'>Last 7 days</p>
+                                    {/* <p className='font-Hat text-[#8B909A] text-[13px]'>Last 7 days</p> */}
                                 </div>
                                 <div className='flex flex-col gap-1'>
                                     <p className='text-[#23272E] font-Hat font-bold text-[31px]'>{users?.length}</p>
@@ -218,7 +218,7 @@ const Customers = () => {
                             <div className='flex flex-col gap-[29px]'>
                                 <div className='flex flex-col gap-1'>
                                     <p className='font-Hat font-semibold text-[#23272E] text-[17px]'>Salons</p>
-                                    <p className='font-Hat text-[#8B909A] text-[13px]'>Last 7 days</p>
+                                    {/* <p className='font-Hat text-[#8B909A] text-[13px]'>Last 7 days</p> */}
                                 </div>
                                 <div className='flex flex-col gap-1'>
                                     <p className='text-[#23272E] font-Hat font-bold text-[31px]'>{allSaloonUsers?.length}</p>
@@ -251,7 +251,7 @@ const Customers = () => {
                             <div className='flex flex-col gap-[29px]'>
                                 <div className='flex flex-col gap-1'>
                                     <p className='font-Hat font-semibold text-[#23272E] text-[17px]'>Retailers</p>
-                                    <p className='font-Hat text-[#8B909A] text-[13px]'>Last 7 days</p>
+                                    {/* <p className='font-Hat text-[#8B909A] text-[13px]'>Last 7 days</p> */}
                                 </div>
                                 <div className='flex flex-col gap-1'>
                                     <p className='text-[#23272E] font-Hat font-bold text-[31px]'>{allRetailUsers?.length}</p>
