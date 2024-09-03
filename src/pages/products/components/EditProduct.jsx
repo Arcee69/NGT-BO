@@ -317,12 +317,12 @@ const EditProduct = ({editData, setEditProductLoading, handleClose, editProductL
                                     <div className='p-[9px] w-full cursor-pointer flex justify-center gap-[16px] '>
                                         {  
                                             picB?.name ? 
-                                            <div className='flex flex-col gap-1 relative'>
-                                                <img alt="upload" width={"200px"} height={"100px"} className='' src={URL.createObjectURL(picB)} />
-                                                <button className="flex items-center absolute -top-5 -right-3" onClick={() => setPicB(null)}> 
-                                                    <img src={CloseIcon} alt='close' />
-                                                </button>
-                                            </div>
+                                                <div className='flex flex-col gap-1 relative'>
+                                                    <img alt="upload" width={"200px"} height={"100px"} className='' src={URL.createObjectURL(picB)} />
+                                                    <button className="flex items-center absolute -top-5 -right-3" onClick={() => setPicB(null)}> 
+                                                        <img src={CloseIcon} alt='close' />
+                                                    </button>
+                                                </div>
                                                 :
                                                 <div className='flex flex-col items-center gap-[16px]'>
                                                     <img src={Upload} alt='upload' className='w-[56px] h-[56px' />

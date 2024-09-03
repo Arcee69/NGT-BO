@@ -38,9 +38,9 @@ const OrderDetails = () => {
             <div className='flex items-center gap-2'>
                 <p className='text-[#071827] text-[32px] font-medium font-Mont'>{`#${state?.id?.substring(0, 8)}`}</p>
                 <p className='font-Mont text-[#5C6F7F] text-base'>{`${new Date(state?.created_at).toDateString().slice(3)} at ${new Date(state?.created_at).toLocaleTimeString()} `}</p>
-                <div className={`rounded-lg h-8 flex justify-center items-center ${state?.assignee_status === 'Pending' && 'w-[78px]  bg-[#FFC60029]'} ${state?.assignee_status === 'accepted' && ' w-[99px] bg-[#ECFDF5]'} ${state?.assignee_status === 'Cancelled' && 'w-[92px] bg-[#FFF1F2]'} `}>
-                    <p className={`text-sm font-Mont text-left ${state?.assignee_status === 'Pending' && 'text-[#FFC600]'} ${state?.assignee_status === 'accepted' && 'text-[#10B981]'} ${state?.assignee_status === 'Cancelled' && 'text-[#F43F5E]'} `}>
-                        {state?.assignee_status === "accepted" ? "Accepted" : state?.assignee_status === "Pending" ? "Pending" : "Rejected"}
+                <div className={`rounded-lg h-8 flex justify-center items-center ${state?.assignee_status === 'unassigned' && 'w-[78px]  bg-[#FFC60029]'} ${state?.assignee_status === 'accepted' && ' w-[99px] bg-[#ECFDF5]'} ${state?.assignee_status === 'Cancelled' && 'w-[92px] bg-[#FFF1F2]'} `}>
+                    <p className={`text-sm font-Mont text-left ${state?.assignee_status ===  'unassigned' && 'text-[#FFC600]'} ${state?.assignee_status === 'accepted' && 'text-[#10B981]'} ${state?.assignee_status === 'Cancelled' && 'text-[#F43F5E]'} `}>
+                        {state?.assignee_status === "accepted" ? "Accepted" : state?.assignee_status ===  'unassigned' ? "Pending" : "Rejected"}
                     </p>
                 </div>
                 <button 
@@ -68,17 +68,17 @@ const OrderDetails = () => {
             >
                 Details
             </p>
-            <p 
+            {/* <p 
                 onClick={() => handleChangeTab("Invoice")} 
                 className={`${activeTab === "Invoice" ? "text-[#8CAD07] border-b border-2" :  "text-[#8B909A] border-0"} text-center cursor-pointer border-x-0 border-t-0 border border-[#8CAD07] w-[108px] h-[38px]`}
             >
                 Invoices
-            </p>
+            </p> */}
         </div>
         <hr />
 
         {activeTab === "Details" && <Details state={state} />}
-        {activeTab === "Invoice" && <Invoices />}
+        {/* {activeTab === "Invoice" && <Invoices />} */}
 
         <ModalPop isOpen={openAssignOrder}>
             <AssignOrder handleClose={() => setOpenAssignOrder(false)} state={state} />

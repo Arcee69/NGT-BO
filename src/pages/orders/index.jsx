@@ -66,7 +66,7 @@ const Orders = () => {
     const pendingOrders = []
     for (let i = 0; i < allOrders?.length; i++) {
         console.log(allOrders[i])
-        if(allOrders[i]?.status === "Shipped") {
+        if(allOrders[i]?.assignee_status === "unassigned") {
           pendingOrders.push(allOrders[i])
         }
     }
@@ -85,7 +85,7 @@ const Orders = () => {
     const completedOrders = []
     for (let i = 0; i < allOrders?.length; i++) {
         console.log(allOrders[i])
-        if(allOrders[i]?.status === "Payment Completed") {
+        if(allOrders[i]?.assignee_status === "assigned") {
           completedOrders.push(allOrders[i])
         }
     }
@@ -104,7 +104,7 @@ const Orders = () => {
     const cancelledOrders = []
     for (let i = 0; i < allOrders?.length; i++) {
         console.log(allOrders[i])
-        if(allOrders[i]?.status === "Cancelled") {
+        if(allOrders[i]?.assignee_status === "Cancelled") {
           cancelledOrders.push(allOrders[i])
         }
     }

@@ -112,11 +112,11 @@ const AssignOrder = ({ handleClose, state }) => {
     }
 
   return (
-    <div className='w-[426px] h-[356px] mt-[150px] pt-[48px] overflow-y-scroll px-[24px] pb-[32px] rounded-lg bg-[#fff]'>
+    <div className='w-[426px] h-[400px] mt-[150px] pt-[48px]  px-[24px] pb-[32px] rounded-lg bg-[#fff]'>
         <div className='flex flex-col justify-center items-center gap-4'>
             <p className='font-Mont font-bold text-[32px] '>Assign order ⏳</p>
             <p className='font-Mont text-base text-center'>
-                Are you sure you want to Assign this order as to <span className='text-lg font-semibold'>{`${searchRetailer?.full_name}?`}</span> 
+                Are you sure you want to Assign this order as to <span className='text-lg font-semibold'>{`${searchRetailer?.full_name || "N/A"}?`}</span> 
             </p>
 
             <div className='flex flex-col gap-1 w-full'>

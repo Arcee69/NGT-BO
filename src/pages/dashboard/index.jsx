@@ -23,11 +23,36 @@ const Dashboard = () => {
   const [analyticsData, setAnalyticsData] = useState([]);
   const [allOrders, setAllOrders] = useState([]);
   const [allOrdersLoading, setAllOrdersLoading] = useState([])
-  const [timeRange, setTimeRange] = useState('last7days'); 
+  const [timeRange, setTimeRange] = useState('lastmonth'); 
 
 
   
   const formatter = new Intl.NumberFormat('en-US');
+
+  console.log(analyticsData, "analyticsData")
+
+  const calculateDateRange = (range) => {
+    const today = new Date();
+    let from_date;
+    let to_date = today.toISOString().split('T')[0]; // Today's date in YYYY-MM-DD format
+
+    if (range === 'last7days') {
+      from_date = new Date(today.setDate(today.getDate() - 7)).toISOString().split('T')[0];
+    } else if (range === 'lastmonth') {
+      const firstDayLastMonth = new Date(today.getFullYear(), today.getMonth() - 1, 1);
+      const lastDayLastMonth = new Date(today.getFullYear(), today.getMonth(), 0);
+      from_date = firstDayLastMonth.toISOString().split('T')[0];
+      to_date = lastDayLastMonth.toISOString().split('T')[0];
+    } else if (range === 'lastyear') {
+      const firstDayLastYear = new Date(today.getFullYear() - 1, 0, 1);
+      const lastDayLastYear = new Date(today.getFullYear() - 1, 11, 31);
+      from_date = firstDayLastYear.toISOString().split('T')[0];
+      to_date = lastDayLastYear.toISOString().split('T')[0];
+    }
+
+    return { from_date, to_date };
+  };
+
 
 
   const fetchAnalytics = async () => {
@@ -104,43 +129,46 @@ const Dashboard = () => {
     };
 
 
-    const getAllOrders = async () => {
-      setAllOrdersLoading(true)
-      await api.get(appUrls?.GET_ORDER_URL)
-      .then((res) => {
-        console.log(res, "asap")
-        setAllOrdersLoading(false)
-        setAllOrders(res?.data?.data?.orders)
-      })
-      .catch((err) => {
-        setAllOrdersLoading(false)
-        console.log(err, "faro")
-      })
-    };
+    // const getAllOrders = async () => {
+    //   setAllOrdersLoading(true)
+    //   await api.get(appUrls?.GET_ORDER_URL)
+    //   .then((res) => {
+    //     console.log(res, "asap")
+    //     setAllOrdersLoading(false)
+    //     setAllOrders(res?.data?.data?.orders)
+    //   })
+    //   .catch((err) => {
+    //     setAllOrdersLoading(false)
+    //     console.log(err, "faro")
+    //   })
+    // };
   
-    console.log(allOrders, "allOrders")
+
   
-    useEffect(() => {
-      getAllOrders()
-    }, [])
+    // useEffect(() => {
+    //   getAllOrders()
+    // }, [])
     
-    const handleTimeRangeChange = (event) => {
-      setTimeRange(event.target.value);
-      // Filter data based on selected time range
-      // Assuming fetchDataForTimeRange is a function that fetches data based on the selected time range
-      fetchDataForTimeRange(event.target.value);
-    };
+    // const handleTimeRangeChange = (event) => {
+    //   setTimeRange(event.target.value);
+    //   // Filter data based on selected time range
+    //   // Assuming fetchDataForTimeRange is a function that fetches data based on the selected time range
+    //   fetchDataForTimeRange(event.target.value);
+    // };
   
     const fetchDataForTimeRange = async (range) => {
       setLoadingAnalyticsData(true);
       setLoadingTransactionData(true);
+  
+      const { from_date, to_date } = calculateDateRange(range);
+  
       try {
         const [analyticsRes, transactionRes] = await Promise.all([
-          api.get(`${appUrls.FETCH_ANALYTICS_URL}?range=${range}`),
-          api.get(`${appUrls.FETCH_TRANSACTION_URL}?range=${range}`)
+          api.get(`${appUrls.FETCH_ANALYTICS_URL}?from_date=${from_date}&to_date=${to_date}`),
+          // api.get(`${appUrls.FETCH_TRANSACTION_URL}?from_date=${from_date}&to_date=${to_date}`)
         ]);
         setAnalyticsData(analyticsRes?.data?.data);
-        setTransactionData(transactionRes?.data?.data?.transactions);
+        // setTransactionData(transactionRes?.data?.data?.transactions);
       } catch (err) {
         console.error(err, "err");
       } finally {
@@ -148,6 +176,16 @@ const Dashboard = () => {
         setLoadingTransactionData(false);
       }
     };
+
+    const handleTimeRangeChange = (event) => {
+      const selectedRange = event.target.value;
+      setTimeRange(selectedRange);
+      fetchDataForTimeRange(selectedRange);
+    };
+  
+    useEffect(() => {
+      fetchDataForTimeRange(timeRange);
+    }, [timeRange]);
 
   return (
     <div className='p-8'>
@@ -236,15 +274,15 @@ const Dashboard = () => {
               </div>
               <div className='flex flex-col gap-[22px] mt-[35px]'>
                 {
-                  transactionData?.length > 0 ? transactionData?.slice(0, 5).map((data, index) => (
+                  analyticsData?.latest_orders?.length > 0 ? analyticsData?.latest_orders?.slice(0, 5).map((data, index) => (
                     <div key={index} className='flex items-center  justify-between'>
                         <div className='flex flex-col'>
                           <p className='font-Hat text-sm text-[#3F434A]'>{data?.user?.full_name}</p>
                           <p className='text-[11px] font-Hat text-[#8A9099]'>{`${new Date(data?.created_at).toLocaleTimeString()} - ${new Date(data?.created_at).toDateString().slice(4)}`}</p>
                         </div>
                         <div className='flex flex-col items-center'>
-                          <p className={`${data?.status === "Success" ? "text-[#49C96D]" : "text-[#FD7972]"} font-Hat`}>{`${data?.status === "Success" ? `+₦${formatter.format(data?.total_amount)}` : `-₦${formatter.format(data?.total_amount)}`}` }</p>
-                          <p className='text-[11px] font-Hat text-[#8A9099]'>{data?.status}</p>
+                          <p className={`${data?.status === "Payment Completed" ? "text-[#49C96D]" : "text-[#FD7972]"} font-Hat`}>{`${data?.status === "Payment Completed" ? `+₦${formatter.format(data?.total_amount)}` : `-₦${formatter.format(data?.total_amount)}`}` }</p>
+                          <p className='text-[11px] font-Hat text-[#8A9099]'>{data?.status === "Payment Completed" ? "Success" : "Failed" }</p>
                         </div>
                     </div>
                   )) : (
@@ -303,7 +341,7 @@ const Dashboard = () => {
               </div>
             </div>
 
-            {allOrders?.length > 0 ? allOrders?.slice(0, 4)?.map((data, index) => (
+            {analyticsData?.latest_orders?.length > 0 ? analyticsData?.latest_orders?.slice(0, 4)?.map((data, index) => (
                 <div key={index} className='bg-[#F8F8F8] w-full flex items-center gap-[75px] my-[8px] h-[56px] rounded-2xl cursor-pointer '>
                     <div className='px-2 w-[150px]'>
                         <p className='text-sm font-semibold font-Mont text-dark-100 text-left'>{data?.user?.full_name || "Not available"}</p> 

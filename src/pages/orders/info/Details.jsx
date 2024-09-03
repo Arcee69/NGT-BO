@@ -122,51 +122,28 @@ const Details = ({ state }) => {
                     </div>
                   </div>
                   <hr />
-                  <div className='flex items-center'>
-                    <div className='w-[212px] p-2'>
-                      <p className='text-[#23272E] font-Mont text-[15px] font-medium'>Relaxer</p>
-                    </div>
-                    <div className='w-[132px] p-2'>
-                      <p className='text-[#23272E] font-Mont text-[15px] font-medium'>$999.29</p>
-                    </div>
-                    <div className='w-[83px] p-2'>
-                      <p className='text-[#23272E] font-Mont text-[15px] font-medium'>x1</p>
-                    </div>
-                    <div className='w-[132px] p-2'>
-                      <p className='text-[#23272E] font-Mont text-[15px] font-medium'>$949.32</p>
-                    </div>
-                  </div>
-                  <hr />
-                  <div className='flex items-center'>
-                    <div className='w-[212px] p-2'>
-                      <p className='text-[#23272E] font-Mont text-[15px] font-medium'>Leave-in Conditioner</p>
-                    </div>
-                    <div className='w-[132px] p-2'>
-                      <p className='text-[#23272E] font-Mont text-[15px] font-medium'>$999.29</p>
-                    </div>
-                    <div className='w-[83px] p-2'>
-                      <p className='text-[#23272E] font-Mont text-[15px] font-medium'>x1</p>
-                    </div>
-                    <div className='w-[132px] p-2'>
-                      <p className='text-[#23272E] font-Mont text-[15px] font-medium'>$949.32</p>
-                    </div>
-                  </div>
-                  <hr />
-                  <div className='flex items-center'>
-                    <div className='w-[212px] p-2'>
-                      <p className='text-[#23272E] font-Mont text-[15px] font-medium'>Body scrub</p>
-                    </div>
-                    <div className='w-[132px] p-2'>
-                      <p className='text-[#23272E] font-Mont text-[15px] font-medium'>$999.29</p>
-                    </div>
-                    <div className='w-[83px] p-2'>
-                      <p className='text-[#23272E] font-Mont text-[15px] font-medium'>x3</p>
-                    </div>
-                    <div className='w-[132px] p-2'>
-                      <p className='text-[#23272E] font-Mont text-[15px] font-medium'>$2,997.87</p>
-                    </div>
-                  </div>
-                  <hr />
+
+                    {
+                      state?.order_items?.map((item, index) => (
+                        <div className='flex items-center' key={index}>
+                          <div className='w-[212px] p-2'>
+                            <p className='text-[#23272E] font-Mont text-[15px] font-medium'>{item?.product?.name}</p>
+                          </div>
+                          <div className='w-[132px] p-2'>
+                            <p className='text-[#23272E] font-Mont text-[15px] font-medium'>{`₦${item?.product?.unit_price}`}</p>
+                          </div>
+                          <div className='w-[83px] p-2'>
+                            <p className='text-[#23272E] font-Mont text-[15px] font-medium'>{`x${item?.quantity}`}</p>
+                          </div>
+                          <div className='w-[132px] p-2'>
+                            <p className='text-[#23272E] font-Mont text-[15px] font-medium'>{`₦${item?.product?.unit_price * item?.quantity}`}</p>
+                          </div>
+                        </div>
+
+                      ))
+                    }
+                    <hr />
+
                   <div className='flex items-center'>
                     <div className='w-[212px] p-1'></div>
                     <div className='w-[132px] p-2'>
@@ -174,7 +151,7 @@ const Details = ({ state }) => {
                     </div>
                     <div className='w-[83px] p-2'></div>
                     <div className='w-[132px] p-2'>
-                      <p className='text-[#23272E] font-Mont text-[15px] font-medium'>$4,896.51</p>
+                      <p className='text-[#23272E] font-Mont text-[15px] font-medium'>Nil</p> {/* $4,896.51 */}
                     </div>
                   </div>
                   <div className='flex items-center'>
@@ -184,7 +161,7 @@ const Details = ({ state }) => {
                     </div>
                     <div className='w-[83px] p-2'></div>
                     <div className='w-[132px] p-2'>
-                      <p className='text-[#23272E] font-Mont text-[15px] font-medium'>$5.50</p>
+                      <p className='text-[#23272E] font-Mont text-[15px] font-medium'>Nil </p> {/* $5.50 */}
                     </div>
                   </div>
                   <div className='flex items-center'>
@@ -194,7 +171,7 @@ const Details = ({ state }) => {
                     </div>
                     <div className='w-[83px] p-2'></div>
                     <div className='w-[132px] p-2'>
-                      <p className='text-[#EA5455] font-Mont text-[15px] font-medium'>$150.32</p>
+                      <p className='text-[#EA5455] font-Mont text-[15px] font-medium'>Nil</p> {/* $150.32*/}
                     </div>
                   </div>
                   <div className='flex items-center'>
@@ -204,7 +181,7 @@ const Details = ({ state }) => {
                     </div>
                     <div className='w-[83px] p-2'></div>
                     <div className='w-[132px] p-2'>
-                      <p className='text-[#23272E] font-Mont text-[15px] font-medium'>$4,751.69</p>
+                      <p className='text-[#23272E] font-Mont text-[15px] font-medium'>{`₦${state?.total_amount}`}</p>
                     </div>
                   </div>
               </div>

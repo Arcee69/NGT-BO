@@ -18,45 +18,6 @@ const AllOrders = ({ allOrders, loading }) => {
 
   const handleText = (e) => setText(e.target.value)
 
-  const allOrderData = [
-    {
-      id: "#0007366388",
-      created: "2 min ago",
-      customer: "Bola Ventures",
-      total: "₦546",
-      status: "Pending",
-    },
-    {
-      id: "#0007366388",
-      created: "2 min ago",
-      customer: "Bola Ventures",
-      total: "₦546",
-      status: "Pending",
-    },
-    {
-      id: "#0007366388",
-      created: "2 min ago",
-      customer: "Bola Ventures",
-      total: "₦546",
-      status: "Pending",
-    },
-    {
-      id: "#0007366388",
-      created: "2 min ago",
-      customer: "Bola Ventures",
-      total: "₦546",
-      status: "Pending",
-    },
-    {
-      id: "#0007366388",
-      created: "2 min ago",
-      customer: "Bola Ventures",
-      total: "₦546",
-      status: "Pending",
-    },
-
-  ]
-
 
     //Get Current data
     const endOffset = itemOffset + perPage;
@@ -67,6 +28,8 @@ const AllOrders = ({ allOrders, loading }) => {
     const filteredOrders = currentData?.filter((item) => 
       item?.id.toLowerCase().includes(text.toLowerCase()) || ""
     )
+
+    console.log(filteredOrders, "filteredOrders")
 
     //Change Page 
     const handlePageClick = (event) => {
@@ -109,7 +72,7 @@ const AllOrders = ({ allOrders, loading }) => {
       }
 
     const navigationCheck = (data) => {
-      if (data?.status === "Shipped") {
+      if (data?.assignee_status === "unassigned") {
         navigate('/orders/details', { state: data });
         window.scrollTo(0, 0)
       } else if (data?.status === "Payment Completed") {
@@ -177,9 +140,9 @@ const AllOrders = ({ allOrders, loading }) => {
                             <p className='text-sm font-Mont text-dark-100 text-left'>{`₦${data?.total_amount}`}</p>
                         </td>
                         <td className='h-[70px] px-4'>
-                            <div className={`rounded-lg h-8 flex justify-center items-center ${data.status === 'Shipped' && 'w-[78px]  bg-[#FFC60029]'} ${data.status === 'Payment Completed' && ' w-[99px] bg-[#ECFDF5]'} ${data.status === 'Cancelled' && 'w-[92px] bg-[#FFF1F2]'} `}>
-                                <p className={`text-sm font-Mont text-left font-semibold ${data.status === 'Shipped' && 'text-[#FFC600]'} ${data.status === 'Payment Completed' && 'text-[#10B981]'} ${data.status === 'Cancelled' && 'text-[#F43F5E]'} `}>
-                                  {data.status === "Shipped" ? "Pending" : data.status === "Payment Completed" ? "Completed" : data.status}
+                            <div className={`rounded-lg h-8 flex justify-center items-center ${data.assignee_status === "unassigned" && 'w-[78px]  bg-[#FFC60029]'} ${data.assignee_status === 'Payment Completed' && ' w-[99px] bg-[#ECFDF5]'} ${data.assignee_status === 'Cancelled' && 'w-[92px] bg-[#FFF1F2]'} `}>
+                                <p className={`text-sm font-Mont text-left font-semibold ${data.assignee_status === "unassigned" && 'text-[#FFC600]'} ${data.assignee_status === 'Payment Completed' && 'text-[#10B981]'} ${data.assignee_status === 'Cancelled' && 'text-[#F43F5E]'} `}>
+                                  {data.assignee_status === "unassigned" ? "Pending" : data.assignee_status === "Payment Completed" ? "Completed" : data.assignee_status}
                                 </p>
                             </div>
                         </td>
