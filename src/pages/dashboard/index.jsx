@@ -187,6 +187,8 @@ const Dashboard = () => {
       fetchDataForTimeRange(timeRange);
     }, [timeRange]);
 
+    console.log(analyticsData, "analyticsData")
+
   return (
     <div className='p-8'>
       <div className='flex items-center justify-between'>
@@ -274,7 +276,8 @@ const Dashboard = () => {
               </div>
               <div className='flex flex-col gap-[22px] mt-[35px]'>
                 {
-                  analyticsData?.latest_orders?.length > 0 ? analyticsData?.latest_orders?.slice(0, 5).map((data, index) => (
+                  analyticsData?.latest_orders?.length > 0 ? analyticsData?.latest_orders?.slice(0, 5)?.map((data, index) => {
+                    return (
                     <div key={index} className='flex items-center  justify-between'>
                         <div className='flex flex-col'>
                           <p className='font-Hat text-sm text-[#3F434A]'>{data?.user?.full_name}</p>
@@ -285,7 +288,7 @@ const Dashboard = () => {
                           <p className='text-[11px] font-Hat text-[#8A9099]'>{data?.status === "Payment Completed" ? "Success" : "Failed" }</p>
                         </div>
                     </div>
-                  )) : (
+                  )}) : (
                     <div className='h-[54px] bg-white border-t border-grey-100'>
                         <div className="relative">
                             <div className='absolute top-14 left-1/3 flex items-center justify-center'>
@@ -341,36 +344,39 @@ const Dashboard = () => {
               </div>
             </div>
 
-            {analyticsData?.latest_orders?.length > 0 ? analyticsData?.latest_orders?.slice(0, 4)?.map((data, index) => (
+            {analyticsData?.latest_orders?.length > 0 ? analyticsData?.latest_orders?.slice(0, 4)?.map((item, index) => {
+              console.log(item, "vana")
+            return (
                 <div key={index} className='bg-[#F8F8F8] w-full flex items-center gap-[75px] my-[8px] h-[56px] rounded-2xl cursor-pointer '>
-                    <div className='px-2 w-[150px]'>
-                        <p className='text-sm font-semibold font-Mont text-dark-100 text-left'>{data?.user?.full_name || "Not available"}</p> 
-                    </div>
-                    <div className='flex items-center gap-[43px]'>
-                      <div className='w-[100px]'>
-                          <p className='text-sm font-Mont text-dark-100 text-left'>{`#${data?.id?.substring(0, 8)}`}</p>
-                      </div>
-                      <div className=' w-[50px]'>
-                          <p className='text-sm font-Mont text-dark-100 text-left'>{`₦${formatter.format(data?.total_amount)}`}</p>
-                      </div>
-                      <div className=' w-[150px]'>
-                          <p className='text-sm font-Mont text-dark-100 text-center'>{data?.delivery_method}</p>
-                      </div>
-                      <div className='w-[100px]'>
-                          <p className='text-sm font-Mont text-dark-100 text-center'>{data?.assigned_to || "N/A"}</p>
-                      </div>
-                      <div className='w-[100px]'>
-                          <p className='text-sm font-Mont text-dark-100 text-center'>{data?.order_items?.length > 0 ? data?.order_items?.length : 0 }</p>
-                      </div>
-                      <div className='w-[100px]'>
-                        <p className='text-sm font-Mont text-dark-100 text-left'>{new Date(data?.created_at).toLocaleDateString()}</p> 
-                      </div>
-                      {/* <svg xmlns="http://www.w3.org/2000/svg" width="4" height="20" viewBox="0 0 4 20" fill="none">
-                        <path fill-rule="evenodd" clip-rule="evenodd" d="M2 15.85C3.07696 15.85 3.95 16.723 3.95 17.8C3.95 18.877 3.07696 19.75 2 19.75C0.923048 19.75 0.0500031 18.877 0.0500031 17.8C0.0500031 16.723 0.923048 15.85 2 15.85ZM2 8.05C3.07696 8.05 3.95 8.92305 3.95 10C3.95 11.077 3.07696 11.95 2 11.95C0.923048 11.95 0.0500031 11.077 0.0500031 10C0.0500031 8.92305 0.923048 8.05 2 8.05ZM3.95 2.2C3.95 1.12304 3.07696 0.25 2 0.25C0.923048 0.25 0.0500031 1.12304 0.0500031 2.2C0.0500031 3.27696 0.923048 4.15 2 4.15C3.07696 4.15 3.95 3.27696 3.95 2.2Z" fill="#8A9099"/>
-                      </svg> */}
-                    </div>
+                     <div className='px-2 w-[150px]'>
+                       <p className='text-sm font-semibold font-Mont text-dark-100 text-left'>{item?.user?.full_name || "Not available"}</p> 
+                     </div>
+                     <div className='flex items-center gap-[43px]'>
+                       <div className='w-[100px]'>
+                           <p className='text-sm font-Mont text-dark-100 text-left'>{`#${item?.id?.substring(0, 8)}`}</p>
+                       </div>
+                       <div className=' w-[50px]'>
+                           <p className='text-sm font-Mont text-dark-100 text-left'>{`₦${formatter.format(item?.total_amount)}`}</p>
+                       </div>
+                       <div className=' w-[150px]'>
+                           <p className='text-sm font-Mont text-dark-100 text-center'>{item?.delivery_method}</p>
+                       </div>
+                       <div className='w-[100px]'>
+                           <p className='text-sm font-Mont text-dark-100 text-center'>{item?.assigned_to?.full_name || "N/A"}</p>
+                       </div>
+                       <div className='w-[100px]'>
+                           <p className='text-sm font-Mont text-dark-100 text-center'>{item?.order_items?.length > 0 ? item?.order_items?.length : 0 }</p>
+                       </div>
+                       <div className='w-[100px]'>
+                         <p className='text-sm font-Mont text-dark-100 text-left'>{new Date(item?.created_at).toLocaleDateString() || "N/A"}</p> 
+                       </div>
+                       {/* <svg xmlns="http://www.w3.org/2000/svg" width="4" height="20" viewBox="0 0 4 20" fill="none">
+                         <path fill-rule="evenodd" clip-rule="evenodd" d="M2 15.85C3.07696 15.85 3.95 16.723 3.95 17.8C3.95 18.877 3.07696 19.75 2 19.75C0.923048 19.75 0.0500031 18.877 0.0500031 17.8C0.0500031 16.723 0.923048 15.85 2 15.85ZM2 8.05C3.07696 8.05 3.95 8.92305 3.95 10C3.95 11.077 3.07696 11.95 2 11.95C0.923048 11.95 0.0500031 11.077 0.0500031 10C0.0500031 8.92305 0.923048 8.05 2 8.05ZM3.95 2.2C3.95 1.12304 3.07696 0.25 2 0.25C0.923048 0.25 0.0500031 1.12304 0.0500031 2.2C0.0500031 3.27696 0.923048 4.15 2 4.15C3.07696 4.15 3.95 3.27696 3.95 2.2Z" fill="#8A9099"/>
+                       </svg> */}
+                     </div>
                 </div>
-            )) : (
+            )}) 
+            : (
                 <div className='h-[54px] bg-white border-t border-grey-100'>
                     <div className="relative">
                         <div className='absolute top-14 left-1/3 flex items-center justify-center'>
