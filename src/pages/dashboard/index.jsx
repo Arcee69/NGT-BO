@@ -187,7 +187,6 @@ const Dashboard = () => {
       fetchDataForTimeRange(timeRange);
     }, [timeRange]);
 
-    console.log(analyticsData, "analyticsData")
 
   return (
     <div className='p-8'>
@@ -345,7 +344,7 @@ const Dashboard = () => {
             </div>
 
             {analyticsData?.latest_orders?.length > 0 ? analyticsData?.latest_orders?.slice(0, 4)?.map((item, index) => {
-              console.log(item, "vana")
+              // console.log(item, "vana")
             return (
                 <div key={index} className='bg-[#F8F8F8] w-full flex items-center gap-[75px] my-[8px] h-[56px] rounded-2xl cursor-pointer '>
                      <div className='px-2 w-[150px]'>
